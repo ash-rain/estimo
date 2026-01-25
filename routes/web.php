@@ -2,14 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Central domain routes (marketing, registration, etc.)
 Route::view('/', 'welcome');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile');
-
-require __DIR__.'/auth.php';
+// Registration route (only on central domain)
+Route::view('/register', 'livewire.pages.auth.register')
+    ->middleware('guest')
+    ->name('register');

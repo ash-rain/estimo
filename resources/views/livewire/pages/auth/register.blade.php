@@ -1,15 +1,19 @@
 <?php
 
 use App\Models\User;
+use App\Models\Tenant;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
 new #[Layout('layouts.guest')] class extends Component
 {
+    public string $company_name = '';
     public string $name = '';
     public string $email = '';
     public string $password = '';
@@ -21,27 +25,66 @@ new #[Layout('layouts.guest')] class extends Component
     public function register(): void
     {
         $validated = $this->validate([
+            'company_name' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:tenants,email'],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $validated['password'] = Hash::make($validated['password']);
+        DB::beginTransaction();
 
-        event(new Registered($user = User::create($validated)));
+        try {
+            // Create tenant
+            $tenant = Tenant::create([
+                'name' => $validated['company_name'],
+                'email' => $validated['email'],
+                'plan' => 'starter',
+                'trial_ends_at' => now()->addDays(14),
+            ]);
 
-        Auth::login($user);
+            // Create domain (subdomain-based)
+            $subdomain = Str::slug($validated['company_name']);
+            $tenant->domains()->create([
+                'domain' => $subdomain . '.' . config('app.domain', 'estimo.test'),
+            ]);
 
-        $this->redirect(route('dashboard', absolute: false), navigate: true);
+            // Initialize tenant and create owner user
+            tenancy()->initialize($tenant);
+
+            $user = User::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'password' => Hash::make($validated['password']),
+                'role' => 'owner',
+            ]);
+
+            event(new Registered($user));
+
+            DB::commit();
+
+            Auth::login($user);
+
+            $this->redirect(route('dashboard', absolute: false), navigate: true);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }; ?>
 
 <div>
     <form wire:submit="register">
-        <!-- Name -->
+        <!-- Company Name -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input wire:model="name" id="name" class="block mt-1 w-full" type="text" name="name" required autofocus autocomplete="name" />
+            <x-input-label for="company_name" :value="__('Company Name')" />
+            <x-text-input wire:model="company_name" id="company_name" class="block mt-1 w-full" type="text" name="company_name" required autofocus autocomplete="organization" />
+            <x-input-error :messages="$errors->get('company_name')" class="mt-2" />
+        </div>
+
+        <!-- Name -->
+        <div class="mt-4">
+            <x-input-label for="name" :value="__('Your Name')" />
+            <x-text-input wire:model="name" id="name" class="block mt-1 w-full" type="text" name="name" required autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
@@ -76,7 +119,7 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}" wire:navigate>
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}" wire:navigate>
                 {{ __('Already registered?') }}
             </a>
 
