@@ -410,39 +410,39 @@
     @endif
 
     @script
-    <script>
-        // Listen for portal link ready event
-        $wire.on('portal-link-ready', (event) => {
-            const url = event.url;
-            
-            // Copy to clipboard
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(url).then(() => {
-                    console.log('Portal link copied to clipboard');
-                }).catch(err => {
-                    console.error('Failed to copy:', err);
-                    // Fallback method
-                    fallbackCopy(url);
-                });
-            } else {
-                fallbackCopy(url);
-            }
-        });
+        <script>
+            // Listen for portal link ready event
+            $wire.on('portal-link-ready', (event) => {
+                const url = event.url;
 
-        function fallbackCopy(text) {
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            textArea.style.position = 'fixed';
-            textArea.style.left = '-999999px';
-            document.body.appendChild(textArea);
-            textArea.select();
-            try {
-                document.execCommand('copy');
-            } catch (err) {
-                console.error('Fallback copy failed:', err);
+                // Copy to clipboard
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(url).then(() => {
+                        console.log('Portal link copied to clipboard');
+                    }).catch(err => {
+                        console.error('Failed to copy:', err);
+                        // Fallback method
+                        fallbackCopy(url);
+                    });
+                } else {
+                    fallbackCopy(url);
+                }
+            });
+
+            function fallbackCopy(text) {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                } catch (err) {
+                    console.error('Fallback copy failed:', err);
+                }
+                document.body.removeChild(textArea);
             }
-            document.body.removeChild(textArea);
-        }
-    </script>
+        </script>
     @endscript
 </div>

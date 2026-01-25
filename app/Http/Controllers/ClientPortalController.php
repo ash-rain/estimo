@@ -23,7 +23,7 @@ class ClientPortalController extends Controller
 
         // Track portal view
         $quote->increment('portal_view_count');
-        
+
         if (!$quote->portal_viewed_at) {
             $quote->update(['portal_viewed_at' => now()]);
         }
@@ -155,7 +155,7 @@ class ClientPortalController extends Controller
     protected function getCompanySettings(): array
     {
         $tenant = tenant();
-        
+
         return [
             'name' => $tenant->name ?? config('app.name'),
             'email' => $tenant->email ?? config('mail.from.address'),

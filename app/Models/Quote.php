@@ -321,14 +321,14 @@ class Quote extends Model
     public function generatePortalToken(): string
     {
         $token = \Illuminate\Support\Str::random(64);
-        
+
         // Ensure uniqueness
         while (static::where('portal_token', $token)->exists()) {
             $token = \Illuminate\Support\Str::random(64);
         }
-        
+
         $this->update(['portal_token' => $token]);
-        
+
         return $token;
     }
 
@@ -340,7 +340,7 @@ class Quote extends Model
         if (!$this->portal_token) {
             $this->generatePortalToken();
         }
-        
+
         return route('portal.quote.show', ['token' => $this->portal_token]);
     }
 
