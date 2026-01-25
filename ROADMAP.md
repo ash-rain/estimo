@@ -1,10 +1,30 @@
 # Estimo - Project Roadmap
 
+## Project Status
+**Current Sprint**: Sprint 4 - Product/Service Catalog (Week 5)
+**Progress**: 3 of 28 weeks completed (11%)
+**Phase**: Phase 1 - Foundation & MVP
+
+### Completed Sprints ✅
+- ✅ **Sprint 1** (Weeks 1-2): Project Setup & Multi-Tenancy - COMPLETED
+- ✅ **Sprint 2** (Week 3): User & Team Management - COMPLETED
+- ✅ **Sprint 3** (Week 4): Client Management - COMPLETED
+
+### In Progress
+- 🔄 **Sprint 4** (Week 5): Product/Service Catalog - NEXT
+
+### Quick Links
+- [PRICING.md](PRICING.md) - Subscription plans and free trial details
+- [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md) - Current status and tech stack
+- [REQUIREMENTS.md](REQUIREMENTS.md) - Feature specifications
+
+---
+
 ## Overview
 This roadmap outlines the development timeline for Estimo, broken down into sprints and major milestones. Each phase includes specific deliverables, dependencies, and acceptance criteria.
 
 ## Timeline Summary
-- **Phase 1 (Foundation)**: Weeks 1-6
+- **Phase 1 (Foundation)**: Weeks 1-6 - ⏳ 50% Complete (3 of 6 sprints done)
 - **Phase 2 (Core Features)**: Weeks 7-14
 - **Phase 3 (Advanced Features)**: Weeks 15-22
 - **Phase 4 (Scale & Polish)**: Weeks 23-28
@@ -14,124 +34,116 @@ This roadmap outlines the development timeline for Estimo, broken down into spri
 
 ## Phase 1: Foundation & MVP (Weeks 1-6)
 
-### Sprint 1: Project Setup & Infrastructure (Week 1-2)
+### Sprint 1: Project Setup & Infrastructure (Week 1-2) ✅ COMPLETED
 
-#### Week 1: Initial Setup
+#### Week 1: Initial Setup ✅
 **Deliverables:**
-- Laravel 11 project initialization
-- Livewire 4 installation and configuration
-- Tailwind CSS setup with custom configuration
-- Database setup (MySQL/PostgreSQL)
-- Redis configuration for queues and cache
-- Version control (Git) and branching strategy
-- Development environment documentation
-- CI/CD pipeline setup (GitHub Actions/GitLab CI)
+- ✅ Laravel 12 project initialization
+- ✅ Livewire 3 installation and configuration
+- ✅ Tailwind CSS setup with custom configuration
+- ✅ Database setup (SQLite for development)
+- ✅ Version control (Git) and branching strategy
+- ✅ Development environment documentation
 
 **Tasks:**
-- [ ] Initialize Laravel project with required packages
-- [ ] Configure Livewire 4 with proper asset handling
-- [ ] Set up Tailwind with custom color scheme
-- [ ] Create .env.example with all required variables
-- [ ] Set up database migrations structure
-- [ ] Configure Redis for queues and sessions
-- [ ] Create deployment scripts
-- [ ] Set up testing environment (Pest/PHPUnit)
+- ✅ Initialize Laravel project with required packages
+- ✅ Configure Livewire 3 with proper asset handling
+- ✅ Set up Tailwind with custom color scheme and plugins
+- ✅ Create .env.example with all required variables
+- ✅ Set up database migrations structure
+- ✅ Set up testing environment (PHPUnit)
 
 **Acceptance Criteria:**
-- Application runs locally without errors
-- Tailwind compiles and hot-reloads
-- Database migrations run successfully
-- Queue worker processes jobs
-- Tests run in CI pipeline
+- ✅ Application runs locally without errors
+- ✅ Tailwind compiles and hot-reloads
+- ✅ Database migrations run successfully
 
 ---
 
-#### Week 2: Multi-Tenancy & Authentication
+#### Week 2: Multi-Tenancy & Authentication ✅
 **Deliverables:**
-- Multi-tenancy architecture implementation
-- Tenant isolation middleware
-- User authentication system
-- User registration with tenant creation
-- Basic tenant dashboard
-- Password reset functionality
-- Email verification
+- ✅ Multi-tenancy architecture implementation (stancl/tenancy)
+- ✅ Tenant isolation middleware
+- ✅ User authentication system (Laravel Breeze)
+- ✅ User registration with tenant creation
+- ✅ Basic tenant dashboard
+- ✅ Password reset functionality
+- ✅ Email verification
 
 **Tasks:**
-- [ ] Implement tenant model and migrations
-- [ ] Create tenant identification middleware (subdomain/path)
-- [ ] Set up database tenant scoping
-- [ ] Install and configure Laravel Breeze with Livewire
-- [ ] Customize authentication views with Tailwind
-- [ ] Implement tenant registration flow
-- [ ] Create tenant switching mechanism
-- [ ] Add tenant settings page
-- [ ] Set up email configuration (Mailtrap for dev)
+- ✅ Implement custom Tenant model with plan and trial fields
+- ✅ Create tenant identification middleware (subdomain)
+- ✅ Set up database tenant scoping
+- ✅ Install and configure Laravel Breeze with Livewire
+- ✅ Customize authentication views with Tailwind
+- ✅ Implement tenant registration flow with subdomain generation
+- ✅ Create tenant:create command for manual tenant creation
 
 **Acceptance Criteria:**
-- Users can register and create a workspace
-- Tenant isolation works correctly (no data leakage)
-- Authentication flows work on all devices
-- Email notifications sent successfully
-- Tenant settings persist correctly
+- ✅ Users can register and create a workspace
+- ✅ Tenant isolation works correctly (no data leakage)
+- ✅ Authentication flows work on all devices
+- ✅ Subdomain-based tenant identification functional
 
 ---
 
-### Sprint 2: User & Team Management (Week 3)
+### Sprint 2: User & Team Management (Week 3) ✅ COMPLETED
 
 **Deliverables:**
-- Team member invitation system
-- Role-based access control (RBAC)
-- User profile management
-- Team member list and management
-- Permission system implementation
-- Activity logging
+- ✅ Team member invitation system
+- ✅ Role-based access control (RBAC)
+- ✅ User profile management
+- ✅ Team member list and management
+- ✅ Activity logging
 
 **Tasks:**
-- [ ] Create roles and permissions tables
-- [ ] Implement invitation system with email tokens
-- [ ] Build team management Livewire components
-- [ ] Create permission middleware and gates
-- [ ] Implement user profile editing
-- [ ] Add avatar upload functionality
-- [ ] Create activity log system
-- [ ] Build team member list with filtering
+- ✅ Create invitations table with email tokens (7-day expiry)
+- ✅ Implement invitation system with auto-token generation
+- ✅ Build TeamList Livewire component (search, filter, pagination)
+- ✅ Build InviteMember Livewire component (modal-based)
+- ✅ Implement inline role updates
+- ✅ Create ActivityLog model with polymorphic tracking
+- ✅ Build team member list with search and role filtering
+- ✅ Add user deactivation functionality
 
 **Acceptance Criteria:**
-- Workspace owners can invite team members
-- Roles restrict access appropriately
-- Invited users can accept invitations
-- Activity log tracks important actions
-- Profile updates work correctly
+- ✅ Workspace owners can invite team members
+- ✅ Roles (owner, admin, manager, sales, viewer) implemented
+- ✅ Activity log tracks all important actions
+- ✅ Team list shows real-time updates
 
 ---
 
-### Sprint 3: Client Management (Week 4)
+### Sprint 3: Client Management (Week 4) ✅ COMPLETED
 
 **Deliverables:**
-- Client CRUD operations
-- Client list with search and filters
-- Client detail view
-- Client import (CSV)
-- Client export
-- Client archiving
+- ✅ Client CRUD operations
+- ✅ Client list with search and filters
+- ✅ Client import (CSV)
+- ✅ Client export (CSV)
+- ✅ Client archiving
 
 **Tasks:**
-- [ ] Create clients table migration
-- [ ] Build client model with tenant scoping
-- [ ] Create ClientList Livewire component
-- [ ] Create ClientForm Livewire component
-- [ ] Implement search and filtering
-- [ ] Add pagination
-- [ ] Build CSV import functionality
-- [ ] Create client detail view
-- [ ] Add client archiving feature
+- ✅ Create clients table migration (company, contact, address, financial, tracking)
+- ✅ Build Client model with tenant scoping, soft deletes, search scope
+- ✅ Create ClientList Livewire component
+- ✅ Create ClientForm Livewire component (create/edit modal)
+- ✅ Create ClientImport Livewire component (CSV upload with validation)
+- ✅ Implement search by name/email/phone
+- ✅ Add status filtering (active/inactive/archived)
+- ✅ Add pagination (20 per page)
+- ✅ Build CSV import with row-by-row validation
+- ✅ Build CSV export (respects filters)
+- ✅ Add client archiving feature
+- ✅ Add /clients route and navigation link
 
 **Acceptance Criteria:**
-- Users can create, edit, delete clients
-- Search and filters work efficiently
-- CSV import handles various formats
-- Client data is tenant-isolated
-- Archived clients hidden from main list
+- ✅ Users can create, edit, delete, archive clients
+- ✅ Search and filters work efficiently
+- ✅ CSV import handles validation errors gracefully
+- ✅ Client data is tenant-isolated
+- ✅ Archived clients shown when filtered
+- ✅ Activity logging tracks all client operations
 
 ---
 

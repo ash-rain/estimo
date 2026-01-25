@@ -1,12 +1,30 @@
 # Estimo - Project Summary
 
 ## Quick Overview
-**Estimo** is a multi-industry SaaS platform for creating professional quotes and cost estimations, built with Laravel 11, Livewire 4, and Tailwind CSS.
+**Estimo** is a multi-industry SaaS platform for creating professional quotes and cost estimations, built with Laravel 12, Livewire 3, and Tailwind CSS 4.
+
+## Project Status
+🚀 **Active Development** - Sprint 3 Completed (Week 4)
+
+### Completed Features
+- ✅ Multi-tenancy (subdomain-based with stancl/tenancy)
+- ✅ User authentication & registration
+- ✅ Team management with role-based access
+- ✅ Team invitation system
+- ✅ Activity logging
+- ✅ Client management (CRUD, search, filter, archive)
+- ✅ CSV import/export for clients
+- ✅ Responsive UI with Tailwind CSS
+
+### Currently In Progress
+- Product/Service Catalog (Sprint 4 - Week 5)
 
 ## Documentation Index
 1. **REQUIREMENTS.md** - Detailed feature specifications, tech stack, user roles, and database schema
-2. **ROADMAP.md** - 28-week development timeline with sprints, milestones, and deliverables
-3. **PROJECT_SUMMARY.md** - This file - quick reference and getting started guide
+2. **ROADMAP.md** - 28-week development timeline with sprints, milestones, and deliverables (✅ Sprints 1-3 completed)
+3. **PRICING.md** - Subscription plans, free trial details, and paid feature breakdown
+4. **PROJECT_SUMMARY.md** - This file - quick reference and current status
+5. **QUICK_START.md** - Development setup instructions
 
 ---
 
@@ -53,21 +71,24 @@
 
 ---
 
-## Tech Stack
+## Tech Stack (Implemented)
 
 ### Backend
-- Laravel 11.x
-- MySQL/PostgreSQL
-- Redis (cache & queues)
-- Laravel Cashier (Stripe)
+- Laravel 12.48.1
+- SQLite (development) / PostgreSQL (production planned)
+- stancl/tenancy 3.9.1 (multi-tenancy)
+- Laravel Breeze (authentication)
+- Laravel Cashier (Stripe) - planned
 
 ### Frontend
-- Livewire 4
-- Alpine.js
-- Tailwind CSS
-- Chart.js / ApexCharts
+- Livewire 3.7.6
+- Alpine.js 3.15.4
+- Tailwind CSS 4.1.18
+- @tailwindcss/forms
+- @tailwindcss/typography
+- Chart.js / ApexCharts - planned
 
-### Services
+### Services (Planned)
 - Email: Postmark/SendGrid
 - Storage: AWS S3
 - PDF: DomPDF/Snappy
@@ -139,35 +160,71 @@
 
 ## Subscription Tiers
 
-### Starter ($29/mo)
-- 1 user
-- Up to 50 quotes/month
-- Basic templates
-- PDF export
+See **PRICING.md** for complete details on all plans, features, and pricing.
 
-### Professional ($79/mo)
-- Up to 5 users
+### Free Plan - $0/month
+- 1 user (owner only)
+- 10 active quotes/month
+- 25 clients, 100 catalog items
+- Basic features with Estimo branding
+
+### Starter - $29/month ($25/month annual)
+- Up to 3 team members
 - Unlimited quotes
-- Custom branding
-- Client portal
-- Advanced reporting
-- API access
+- 200 clients, 500 catalog items
+- Custom branding, CSV import/export
+- Client portal with accept/reject
 
-### Enterprise ($199/mo)
-- Unlimited users
-- White-label options
-- Custom integrations
+### Professional - $79/month ($69/month annual)
+- Up to 10 team members
+- Unlimited clients and catalog items
+- Advanced reporting and analytics
+- Approval workflows, custom fields
+- Multi-currency, pricing rules
+- QuickBooks/Xero integration, API access
+
+### Business - $199/month ($179/month annual)
+- Unlimited team members
+- E-signature integration
+- Payment collection (Stripe)
+- Industry-specific modules
+- Advanced automation, webhooks
+- White-label client portal
+
+### Enterprise - Custom Pricing
+- SSO/SAML authentication
+- Custom integrations, SLA guarantee
 - Dedicated support
-- SLA guarantee
+- HIPAA/SOC 2 compliance
+
+### Free Trial
+- **14 days** with full Professional plan features
+- No credit card required
+- Up to 3 team members, 25 quotes, 50 clients
+- Automatic downgrade to Free plan after trial
 
 ---
 
-## Database Overview (Core Tables)
+## Database Overview
 
+### Central Database
 ```
-tenants
-├── users
-├── clients
+tenants (id, name, email, plan, trial_ends_at)
+└── domains (tenant_id, domain)
+```
+
+### Tenant Databases (Implemented)
+```
+├── users (id, name, email, role, is_active)
+├── invitations (id, email, role, token, invited_by, expires_at)
+├── activity_logs (id, user_id, action, model_type, model_id, description, properties)
+└── clients (id, company_name, contact_name, email, phone, website, address,
+             city, state, postal_code, country, currency, tax_exempt, tax_rate,
+             notes, tags, status, created_by, last_contact_at)
+```
+
+### Tenant Databases (Planned)
+```
 ├── catalog_items
 │   └── categories
 ├── quotes
@@ -182,41 +239,48 @@ tenants
 
 ---
 
-## Next Steps to Start Development
+## Development Setup
 
-### Immediate Actions (Week 1)
-1. **Initialize Laravel Project**
-   ```bash
-   composer create-project laravel/laravel estimo
-   cd estimo
-   composer require livewire/livewire
-   npm install -D tailwindcss
-   ```
+### Quick Start
+See **QUICK_START.md** for detailed setup instructions.
 
-2. **Set Up Multi-Tenancy**
-   - Choose approach (subdomain vs path)
-   - Install package (stancl/tenancy recommended)
-   - Configure database connections
+### Current Development Environment
+```bash
+# Clone repository
+git clone <repository-url>
+cd estimo
 
-3. **Install Development Tools**
-   ```bash
-   composer require --dev laravel/pint
-   composer require --dev pestphp/pest
-   composer require --dev barryvdh/laravel-debugbar
-   ```
+# Install dependencies
+composer install
+npm install
 
-4. **Configure Environment**
-   - Database credentials
-   - Redis connection
-   - Mail settings
-   - Storage configuration
+# Configure environment
+cp .env.example .env
+php artisan key:generate
 
-5. **Set Up Version Control**
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   ```
+# Run migrations
+php artisan migrate
+php artisan tenants:migrate
+
+# Build assets
+npm run dev
+
+# Start server
+php artisan serve
+```
+
+### Create Demo Tenant
+```bash
+php artisan tenant:create "Demo Company" "admin@demo.com" --password=password
+```
+Access at: http://demo-company.estimo.test
+
+### Next Sprint Focus (Week 5)
+- Product/Service Catalog
+- Category management
+- Catalog CRUD with search/filters
+- Unit types configuration
+- CSV import/export for catalog items
 
 ---
 

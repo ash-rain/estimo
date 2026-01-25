@@ -11,8 +11,7 @@ use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
-new #[Layout('layouts.guest')] class extends Component
-{
+new #[Layout('layouts.guest')] class extends Component {
     public string $company_name = '';
     public string $name = '';
     public string $email = '';
@@ -82,32 +81,32 @@ new #[Layout('layouts.guest')] class extends Component
         <!-- Company Name -->
         <div>
             <x-input-label for="company_name" :value="__('Company Name')" />
-            <x-text-input wire:model="company_name" id="company_name" class="block mt-1 w-full" type="text" name="company_name" required autofocus autocomplete="organization" placeholder="Acme Inc" />
+            <x-text-input wire:model="company_name" id="company_name" class="block mt-1 w-full" type="text"
+                name="company_name" required autofocus autocomplete="organization" placeholder="Acme Inc" />
             <x-input-error :messages="$errors->get('company_name')" class="mt-2" />
         </div>
 
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Your Name')" />
-            <x-text-input wire:model="name" id="name" class="block mt-1 w-full" type="text" name="name" required autocomplete="name" placeholder="John Doe" />
+            <x-text-input wire:model="name" id="name" class="block mt-1 w-full" type="text" name="name"
+                required autocomplete="name" placeholder="John Doe" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email address')" />
-            <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email" required autocomplete="username" placeholder="you@example.com" />
+            <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email"
+                required autocomplete="username" placeholder="you@example.com" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Password -->
         <div>
             <x-input-label for="password" :value="__('Password')" />
-            <x-text-input wire:model="password" id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" 
-                            placeholder="••••••••" />
+            <x-text-input wire:model="password" id="password" class="block mt-1 w-full" type="password" name="password"
+                required autocomplete="new-password" placeholder="••••••••" />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
@@ -115,9 +114,8 @@ new #[Layout('layouts.guest')] class extends Component
         <div>
             <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
             <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" 
-                            placeholder="••••••••" />
+                type="password" name="password_confirmation" required autocomplete="new-password"
+                placeholder="••••••••" />
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
