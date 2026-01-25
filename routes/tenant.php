@@ -37,7 +37,7 @@ Route::middleware([
         Route::view('/team', 'team')->name('team');
         Route::view('/clients', 'clients')->name('clients');
         Route::view('/catalog', 'catalog')->name('catalog');
-        
+
         // Quotes
         Route::view('/quotes', 'quotes')->name('quotes');
         Route::view('/quotes/create', 'quote-builder')->name('quotes.create');

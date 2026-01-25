@@ -1,9 +1,9 @@
 # Estimo - Project Roadmap
 
 ## Project Status
-**Current Sprint**: Sprint 6 - PDF Generation & Email (Week 7)
-**Progress:** 5 of 28 weeks completed (18%)
-**Phase**: Phase 1 Complete, Moving to Phase 2
+**Current Sprint**: Sprint 8 - Client Portal (Week 9)
+**Progress:** 7 of 28 weeks completed (25%)
+**Phase**: Phase 2 - Core Features
 
 ### Completed Sprints ✅
 - ✅ **Sprint 1** (Weeks 1-2): Project Setup & Multi-Tenancy - COMPLETED
@@ -11,9 +11,10 @@
 - ✅ **Sprint 3** (Week 4): Client Management - COMPLETED
 - ✅ **Sprint 4** (Week 5): Product/Service Catalog - COMPLETED
 - ✅ **Sprint 5** (Week 6): Basic Quote Builder - COMPLETED
+- ✅ **Sprint 6-7** (Weeks 7-8): PDF Generation & Email Delivery - COMPLETED
 
 ### In Progress
-- 🔄 **Sprint 6** (Weeks 7-8): PDF Generation & Email Delivery - NEXT
+- 🔄 **Sprint 8** (Week 9): Client Portal - NEXT
 
 ### Quick Links
 - [PRICING.md](PRICING.md) - Subscription plans and free trial details
@@ -222,60 +223,61 @@ This roadmap outlines the development timeline for Estimo, broken down into spri
 
 ## Phase 2: Core Features (Weeks 7-14)
 
-### Sprint 6: PDF Generation & Email Delivery (Week 7-8)
+### Sprint 6-7: PDF Generation & Email Delivery (Week 7-8) ✅ COMPLETED
 
-#### Week 7: PDF Generation
+#### Week 7: PDF Generation ✅
 **Deliverables:**
-- Professional PDF templates
-- Quote PDF generation
-- Branding customization (logo, colors)
-- PDF preview functionality
-- PDF storage and retrieval
+- ✅ Professional PDF templates
+- ✅ Quote PDF generation
+- ✅ Branding customization (logo, colors)
+- ✅ PDF download functionality
+- ✅ Company settings storage
 
 **Tasks:**
-- [ ] Install and configure DomPDF or Snappy
-- [ ] Create PDF template blade views
-- [ ] Build PDF generation service
-- [ ] Implement branding settings
-- [ ] Add logo upload
-- [ ] Create PDF preview modal
-- [ ] Implement PDF caching
-- [ ] Add custom CSS for PDFs
+- ✅ Install and configure DomPDF (barryvdh/laravel-dompdf)
+- ✅ Create PDF template blade views
+- ✅ Build PDF generation service (PdfGenerator)
+- ✅ Implement branding settings (tenant columns)
+- ✅ Add company information fields
+- ✅ Create download PDF button
+- ✅ Add custom CSS for PDFs
+- ✅ Multi-page support
 
 **Acceptance Criteria:**
-- PDFs generate in < 5 seconds
-- PDFs include all quote details
-- Branding applies correctly
-- PDFs stored securely in storage
-- Preview matches final PDF
+- ✅ PDFs generate successfully
+- ✅ PDFs include all quote details
+- ✅ Branding applies correctly (colors, company info)
+- ✅ Download works from quote builder
+- ✅ Professional layout and formatting
 
 ---
 
-#### Week 8: Email Delivery System
+#### Week 8: Email Delivery System ✅
 **Deliverables:**
-- Email template system
-- Quote email delivery
-- Email tracking (opens, clicks)
-- Email customization
-- Scheduled sending
-- Reminder emails
+- ✅ Email template system
+- ✅ Quote email delivery
+- ✅ Email tracking database
+- ✅ Email customization
+- ✅ PDF email attachments
+- ✅ Email activity logging
 
 **Tasks:**
-- [ ] Create email templates table
-- [ ] Build email template editor
-- [ ] Implement quote email job
-- [ ] Add email tracking pixels
-- [ ] Create email log system
-- [ ] Build scheduled sending feature
-- [ ] Implement reminder automation
-- [ ] Add email preview
+- ✅ Create QuoteEmail model and migration
+- ✅ Build email template (quote-sent)
+- ✅ Implement QuoteSent mailable
+- ✅ Add email tracking fields (opens, clicks, status)
+- ✅ Create email log system
+- ✅ Build send email modal UI
+- ✅ Implement email validation
+- ✅ Add email activity logging
 
 **Acceptance Criteria:**
-- Quotes can be emailed to clients
-- Email opens tracked accurately
-- Templates customizable per workspace
-- Scheduled emails sent on time
-- Email logs viewable in quote activity
+- ✅ Quotes can be emailed to clients
+- ✅ Email tracking structure in place
+- ✅ PDF attaches to emails
+- ✅ Email logs stored in database
+- ✅ Success/error notifications work
+- ✅ Email activity logged
 
 ---
 

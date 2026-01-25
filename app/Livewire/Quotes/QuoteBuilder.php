@@ -4,9 +4,13 @@ namespace App\Livewire\Quotes;
 
 use App\Models\Quote;
 use App\Models\QuoteItem;
+use App\Models\QuoteEmail;
 use App\Models\Client;
 use App\Models\CatalogItem;
 use App\Models\ActivityLog;
+use App\Services\PdfGenerator;
+use App\Mail\QuoteSent;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class QuoteBuilder extends Component
@@ -29,7 +33,12 @@ class QuoteBuilder extends Component
 
     // UI state
     public $showAddItemModal = false;
+    public $showSendEmailModal = false;
     public $editingItemIndex = null;
+
+    // Email form
+    public $emailRecipient = '';
+    public $emailMessage = '';
 
     // New item form
     public $newItem = [
@@ -75,6 +84,11 @@ class QuoteBuilder extends Component
             $this->terms = $this->quote->terms ?? '';
             $this->footer = $this->quote->footer ?? '';
             $this->currency = $this->quote->currency;
+            
+            // Pre-fill email recipient with client email
+            if ($this->quote->client && $this->quote->client->email) {
+                $this->emailRecipient = $this->quote->client->email;
+            }
         } else {
             $this->quote = new Quote();
             $this->quote_date = now()->format('Y-m-d');
@@ -230,6 +244,89 @@ class QuoteBuilder extends Component
         );
 
         session()->flash('success', 'Quote sent successfully.');
+    }
+
+    public function openSendEmailModal()
+    {
+        if (!$this->quote->exists || $this->quote->items()->count() === 0) {
+            session()->flash('error', 'Cannot send an empty quote.');
+            return;
+        }
+
+        // Pre-fill email if not already set
+        if (empty($this->emailRecipient) && $this->quote->client && $this->quote->client->email) {
+            $this->emailRecipient = $this->quote->client->email;
+        }
+
+        $this->showSendEmailModal = true;
+    }
+
+    public function sendEmail()
+    {
+        $this->validate([
+            'emailRecipient' => 'required|email',
+            'emailMessage' => 'nullable|string',
+        ]);
+
+        try {
+            // Send email with PDF attachment
+            Mail::to($this->emailRecipient)
+                ->send(new QuoteSent($this->quote, $this->emailMessage));
+
+            // Log the email
+            QuoteEmail::create([
+                'quote_id' => $this->quote->id,
+                'recipient_email' => $this->emailRecipient,
+                'recipient_name' => $this->quote->client->name,
+                'message' => $this->emailMessage,
+                'status' => 'sent',
+            ]);
+
+            // Mark quote as sent
+            $this->quote->markAsSent();
+
+            // Log activity
+            ActivityLog::log(
+                'quote_emailed',
+                auth()->user()->name . ' emailed quote ' . $this->quote->quote_number . ' to ' . $this->emailRecipient,
+                $this->quote
+            );
+
+            $this->showSendEmailModal = false;
+            $this->emailMessage = '';
+
+            session()->flash('success', 'Quote sent via email successfully!');
+        } catch (\Exception $e) {
+            // Log failed email
+            QuoteEmail::create([
+                'quote_id' => $this->quote->id,
+                'recipient_email' => $this->emailRecipient,
+                'recipient_name' => $this->quote->client->name,
+                'message' => $this->emailMessage,
+                'status' => 'failed',
+                'error_message' => $e->getMessage(),
+            ]);
+
+            session()->flash('error', 'Failed to send email: ' . $e->getMessage());
+        }
+    }
+
+    public function downloadPdf()
+    {
+        if (!$this->quote->exists || $this->quote->items()->count() === 0) {
+            session()->flash('error', 'Cannot download PDF for an empty quote.');
+            return;
+        }
+
+        $pdfGenerator = app(PdfGenerator::class);
+        
+        ActivityLog::log(
+            'quote_downloaded',
+            auth()->user()->name . ' downloaded PDF for quote: ' . $this->quote->quote_number,
+            $this->quote
+        );
+
+        return $pdfGenerator->downloadQuotePdf($this->quote);
     }
 
     protected function resetNewItem()

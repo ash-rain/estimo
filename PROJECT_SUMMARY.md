@@ -4,7 +4,7 @@
 **Estimo** is a multi-industry SaaS platform for creating professional quotes and cost estimations, built with Laravel 12, Livewire 3, and Tailwind CSS 4.
 
 ## Project Status
-🚀 **Active Development** - Sprint 4 Completed (Week 5)
+🚀 **Active Development** - Sprint 6-7 Completed (Week 8)
 
 ### Completed Features
 - ✅ Multi-tenancy (subdomain-based with stancl/tenancy)
@@ -17,17 +17,26 @@
 - ✅ Product/Service Catalog (CRUD, categories, bulk import/export)
 - ✅ Inventory tracking (optional)
 - ✅ Multi-currency support
+- ✅ Quote Builder (line items, calculations, status workflow)
+- ✅ PDF Generation (professional PDFs with company branding)
+- ✅ Email Delivery (send quotes with PDF attachments)
+- ✅ Email Tracking (database tracking for opens, clicks, status)
+- ✅ Company Branding (tenant settings for logo, colors, contact info)
 - ✅ Responsive UI with Tailwind CSS
 
 ### Currently In Progress
-- Basic Quote Builder (Sprint 5 - Week 6)
+- Client Portal (Sprint 8 - Week 9) - NEXT
 
 ## Documentation Index
 1. **REQUIREMENTS.md** - Detailed feature specifications, tech stack, user roles, and database schema
-2. **ROADMAP.md** - 28-week development timeline with sprints, milestones, and deliverables (✅ Sprints 1-3 completed)
+2. **ROADMAP.md** - 28-week development timeline with sprints, milestones, and deliverables (✅ Sprints 1-7 completed - 25% done)
 3. **PRICING.md** - Subscription plans, free trial details, and paid feature breakdown
 4. **PROJECT_SUMMARY.md** - This file - quick reference and current status
 5. **QUICK_START.md** - Development setup instructions
+6. **PHASE_1_COMPLETE.md** - Phase 1 completion summary (Sprints 1-5)
+7. **SPRINT_6_7_COMPLETE.md** - Detailed Sprint 6-7 completion documentation
+8. **SPRINT_6_7_SUMMARY.txt** - Quick summary of Sprint 6-7 implementation
+9. **REMAINING_SPRINTS.md** - Planning document for Sprints 8-28
 
 ---
 

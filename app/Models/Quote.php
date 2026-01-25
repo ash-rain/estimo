@@ -132,6 +132,14 @@ class Quote extends Model
     }
 
     /**
+     * Get the email tracking records for this quote.
+     */
+    public function emails(): HasMany
+    {
+        return $this->hasMany(QuoteEmail::class)->orderBy('sent_at', 'desc');
+    }
+
+    /**
      * Calculate quote totals.
      */
     public function calculate(): void
@@ -267,7 +275,7 @@ class Quote extends Model
      */
     public function getStatusLabelAttribute(): string
     {
-        return match($this->status) {
+        return match ($this->status) {
             'draft' => 'Draft',
             'sent' => 'Sent',
             'viewed' => 'Viewed',
@@ -283,7 +291,7 @@ class Quote extends Model
      */
     public function getStatusColorAttribute(): string
     {
-        return match($this->status) {
+        return match ($this->status) {
             'draft' => 'gray',
             'sent' => 'blue',
             'viewed' => 'purple',
