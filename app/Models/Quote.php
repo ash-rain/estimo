@@ -93,7 +93,7 @@ class Quote extends Model
 
         $nextNumber = $lastQuote ? ((int) substr($lastQuote->quote_number, -4)) + 1 : 1;
 
-        return 'Q-'.$year.'-'.str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+        return 'Q-' . $year . '-' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
     }
 
     /**
@@ -288,7 +288,7 @@ class Quote extends Model
      */
     public function getFormattedTotalAttribute(): string
     {
-        return $this->currency.' '.number_format($this->total, 2);
+        return $this->currency . ' ' . number_format($this->total, 2);
     }
 
     /**

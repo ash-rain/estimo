@@ -4,7 +4,7 @@
 **Estimo** is a multi-industry SaaS platform for creating professional quotes and cost estimations, built with Laravel 12, Livewire 3, and Tailwind CSS 4.
 
 ## Project Status
-🚀 **Active Development** - Sprint 9 Completed (Week 11)
+🚀 **Active Development** - Sprint 10 Completed (Week 12)
 
 ### Completed Features
 - ✅ Multi-tenancy (subdomain-based with stancl/tenancy)
@@ -24,14 +24,15 @@
 - ✅ Company Branding (tenant settings for logo, colors, contact info)
 - ✅ Client Portal (public quote access, accept/reject, digital signatures)
 - ✅ Quote Versioning (revision snapshots, history, comparison, restore)
+- ✅ Advanced Pricing (pricing rules, client pricing, volume discounts, PricingEngine)
 - ✅ Responsive UI with Tailwind CSS
 
 ### Currently In Progress
-- Advanced Pricing Features (Sprint 10 - Week 12) - NEXT
+- Templates & Customization (Sprint 11 - Week 13) - NEXT
 
 ## Documentation Index
 1. **REQUIREMENTS.md** - Detailed feature specifications, tech stack, user roles, and database schema
-2. **ROADMAP.md** - 28-week development timeline with sprints, milestones, and deliverables (✅ Sprints 1-9 completed - 32% done)
+2. **ROADMAP.md** - 28-week development timeline with sprints, milestones, and deliverables (✅ Sprints 1-10 completed - 36% done)
 3. **PRICING.md** - Subscription plans, free trial details, and paid feature breakdown
 4. **PROJECT_SUMMARY.md** - This file - quick reference and current status
 5. **QUICK_START.md** - Development setup instructions
@@ -41,7 +42,9 @@
 9. **SPRINT_8_COMPLETE.md** - Sprint 8 completion documentation (Client Portal)
 10. **SPRINT_9_COMPLETE.md** - Sprint 9 completion documentation (Quote Versioning)
 11. **SPRINT_9_SUMMARY.txt** - Quick summary of Sprint 9 implementation
-12. **REMAINING_SPRINTS.md** - Planning document for Sprints 10-28
+12. **SPRINT_10_COMPLETE.md** - Sprint 10 completion documentation (Advanced Pricing)
+13. **SPRINT_10_SUMMARY.txt** - Quick summary of Sprint 10 implementation
+14. **REMAINING_SPRINTS.md** - Planning document for Sprints 11-28
 
 ---
 

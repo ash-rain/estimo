@@ -52,7 +52,7 @@ class QuoteRevision extends Model
      */
     public function getVersionNameAttribute(): string
     {
-        return 'v'.$this->revision_number;
+        return 'v' . $this->revision_number;
     }
 
     /**
@@ -186,20 +186,20 @@ class QuoteRevision extends Model
             $summary[] = sprintf(
                 'Total %s by %s',
                 $diff > 0 ? 'increased' : 'decreased',
-                '$'.number_format(abs($diff), 2)
+                '$' . number_format(abs($diff), 2)
             );
         }
 
         if (isset($changes['items']['added']) && count($changes['items']['added']) > 0) {
-            $summary[] = count($changes['items']['added']).' item(s) added';
+            $summary[] = count($changes['items']['added']) . ' item(s) added';
         }
 
         if (isset($changes['items']['removed']) && count($changes['items']['removed']) > 0) {
-            $summary[] = count($changes['items']['removed']).' item(s) removed';
+            $summary[] = count($changes['items']['removed']) . ' item(s) removed';
         }
 
         if (isset($changes['items']['modified']) && count($changes['items']['modified']) > 0) {
-            $summary[] = count($changes['items']['modified']).' item(s) modified';
+            $summary[] = count($changes['items']['modified']) . ' item(s) modified';
         }
 
         return empty($summary) ? 'No changes' : implode(', ', $summary);

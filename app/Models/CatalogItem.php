@@ -32,6 +32,8 @@ class CatalogItem extends Model
         'notes',
         'image_url',
         'is_active',
+        'volume_pricing',
+        'pricing_model',
         'created_by',
         'last_used_at',
     ];
@@ -47,6 +49,7 @@ class CatalogItem extends Model
         'stock_quantity' => 'integer',
         'low_stock_threshold' => 'integer',
         'tags' => 'array',
+        'volume_pricing' => 'array',
         'is_active' => 'boolean',
         'last_used_at' => 'datetime',
     ];
@@ -81,6 +84,14 @@ class CatalogItem extends Model
     public function variants(): HasMany
     {
         return $this->hasMany(CatalogItem::class, 'parent_id');
+    }
+
+    /**
+     * Get client-specific pricing for this item.
+     */
+    public function clientPricing(): HasMany
+    {
+        return $this->hasMany(ClientPricing::class);
     }
 
     /**

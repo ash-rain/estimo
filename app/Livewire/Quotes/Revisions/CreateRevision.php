@@ -46,7 +46,7 @@ class CreateRevision extends Component
             $this->dispatch('revision-created', revisionId: $revision->id);
             $this->dispatch('notify', [
                 'type' => 'success',
-                'message' => 'Revision '.$revision->version_name.' created successfully!',
+                'message' => 'Revision ' . $revision->version_name . ' created successfully!',
             ]);
 
             $this->closeModal();
@@ -56,7 +56,7 @@ class CreateRevision extends Component
         } catch (\Exception $e) {
             $this->dispatch('notify', [
                 'type' => 'error',
-                'message' => 'Failed to create revision: '.$e->getMessage(),
+                'message' => 'Failed to create revision: ' . $e->getMessage(),
             ]);
         }
     }

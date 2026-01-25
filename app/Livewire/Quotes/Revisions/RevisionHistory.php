@@ -71,7 +71,7 @@ class RevisionHistory extends Component
 
             $this->dispatch('notify', [
                 'type' => 'success',
-                'message' => 'Quote restored from '.$revision->version_name.' successfully!',
+                'message' => 'Quote restored from ' . $revision->version_name . ' successfully!',
             ]);
 
             $this->dispatch('quote-restored');
@@ -79,7 +79,7 @@ class RevisionHistory extends Component
         } catch (\Exception $e) {
             $this->dispatch('notify', [
                 'type' => 'error',
-                'message' => 'Failed to restore revision: '.$e->getMessage(),
+                'message' => 'Failed to restore revision: ' . $e->getMessage(),
             ]);
         }
     }

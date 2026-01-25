@@ -387,18 +387,46 @@ This roadmap outlines the development timeline for Estimo, broken down into spri
 - [ ] Create volume tier system
 - [ ] Build client pricing overrides
 - [ ] Implement formula parser
-- [ ] Add pricing rule priority system
+---
+
+### Sprint 10: Advanced Pricing & Discounts (Week 12) ✅ COMPLETED
+
+**Deliverables:**
+- ✅ Pricing rules engine
+- ✅ Discount system (multiple types)
+- ✅ Markup calculations
+- ✅ Volume pricing tiers
+- ✅ Client-specific pricing
+- ✅ Priority-based rule system
+
+**Tasks:**
+- ✅ Create pricing_rules table
+- ✅ Create client_pricing table
+- ✅ Add volume_pricing to catalog_items
+- ✅ Build PricingEngine service
+- ✅ Implement discount/markup logic
+- ✅ Create volume tier system
+- ✅ Build client pricing overrides
+- ✅ Add pricing rule priority system
+- ✅ Create PricingRule model
+- ✅ Create ClientPricing model
+- ✅ Build pricing rules management UI
 
 **Acceptance Criteria:**
-- Pricing rules apply automatically
-- Discounts calculate correctly
-- Margin vs markup options work
-- Volume tiers trigger at thresholds
-- Client pricing overrides catalog prices
+- ✅ Pricing rules apply automatically via PricingEngine
+- ✅ Discounts calculate correctly (percentage and fixed)
+- ✅ Markup calculations work
+- ✅ Volume tiers trigger at quantity thresholds
+- ✅ Client pricing overrides all other pricing
+- ✅ Priority system resolves conflicts
+- ✅ Date range validation for client pricing
+
+**Completion Date:** January 25, 2026  
+**Documentation:** See SPRINT_10_COMPLETE.md for details
 
 ---
 
-### Sprint 10: Templates & Customization (Week 13)
+### Sprint 11: Templates & Customization (Week 13)
 
 **Deliverables:**
 - Quote templates system

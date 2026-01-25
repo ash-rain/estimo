@@ -103,24 +103,26 @@
 
             <!-- Revision Management Section -->
             @if ($quote->exists)
-            <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
-                        <h4 class="text-sm font-medium text-gray-700">Revision Management</h4>
-                        @if($quote->getCurrentRevisionNumber() > 0)
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
-                                {{ $quote->getRevisionVersionName() }} ({{ $quote->revisions->count() }} {{ Str::plural('revision', $quote->revisions->count()) }})
-                            </span>
-                        @else
-                            <span class="text-xs text-gray-500">No revisions yet</span>
-                        @endif
-                    </div>
-                    <div class="flex gap-2">
-                        @livewire('quotes.revisions.create-revision', ['quote' => $quote], key('create-revision-'.$quote->id))
-                        @livewire('quotes.revisions.revision-history', ['quote' => $quote], key('revision-history-'.$quote->id))
+                <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <h4 class="text-sm font-medium text-gray-700">Revision Management</h4>
+                            @if ($quote->getCurrentRevisionNumber() > 0)
+                                <span
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                                    {{ $quote->getRevisionVersionName() }} ({{ $quote->revisions->count() }}
+                                    {{ Str::plural('revision', $quote->revisions->count()) }})
+                                </span>
+                            @else
+                                <span class="text-xs text-gray-500">No revisions yet</span>
+                            @endif
+                        </div>
+                        <div class="flex gap-2">
+                            @livewire('quotes.revisions.create-revision', ['quote' => $quote], key('create-revision-' . $quote->id))
+                            @livewire('quotes.revisions.revision-history', ['quote' => $quote], key('revision-history-' . $quote->id))
+                        </div>
                     </div>
                 </div>
-            </div>
             @endif
         </div>
 
@@ -148,7 +150,8 @@
                                 </th>
                                 <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase w-32">Price
                                 </th>
-                                <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase w-24">Disc %
+                                <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase w-24">Disc
+                                    %
                                 </th>
                                 <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase w-32">
                                     Subtotal</th>

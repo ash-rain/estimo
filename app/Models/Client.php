@@ -56,6 +56,14 @@ class Client extends Model
     }
 
     /**
+     * Get custom pricing for this client.
+     */
+    public function customPricing(): HasMany
+    {
+        return $this->hasMany(ClientPricing::class);
+    }
+
+    /**
      * Get the full address
      */
     public function getFullAddressAttribute(): string
