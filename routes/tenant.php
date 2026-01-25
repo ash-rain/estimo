@@ -36,5 +36,6 @@ Route::middleware([
         Route::view('/profile', 'profile')->name('profile');
         Route::view('/team', 'team')->name('team');
         Route::view('/clients', 'clients')->name('clients');
+        Route::view('/catalog', 'catalog')->name('catalog');
     });
 });

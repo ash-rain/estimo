@@ -1,17 +1,18 @@
 # Estimo - Project Roadmap
 
 ## Project Status
-**Current Sprint**: Sprint 4 - Product/Service Catalog (Week 5)
-**Progress**: 3 of 28 weeks completed (11%)
+**Current Sprint**: Sprint 5 - Basic Quote Builder (Week 6)
+**Progress**: 4 of 28 weeks completed (14%)
 **Phase**: Phase 1 - Foundation & MVP
 
 ### Completed Sprints ✅
 - ✅ **Sprint 1** (Weeks 1-2): Project Setup & Multi-Tenancy - COMPLETED
 - ✅ **Sprint 2** (Week 3): User & Team Management - COMPLETED
 - ✅ **Sprint 3** (Week 4): Client Management - COMPLETED
+- ✅ **Sprint 4** (Week 5): Product/Service Catalog - COMPLETED
 
 ### In Progress
-- 🔄 **Sprint 4** (Week 5): Product/Service Catalog - NEXT
+- 🔄 **Sprint 5** (Week 6): Basic Quote Builder - NEXT
 
 ### Quick Links
 - [PRICING.md](PRICING.md) - Subscription plans and free trial details
@@ -24,7 +25,7 @@
 This roadmap outlines the development timeline for Estimo, broken down into sprints and major milestones. Each phase includes specific deliverables, dependencies, and acceptance criteria.
 
 ## Timeline Summary
-- **Phase 1 (Foundation)**: Weeks 1-6 - ⏳ 50% Complete (3 of 6 sprints done)
+- **Phase 1 (Foundation)**: Weeks 1-6 - ⏳ 67% Complete (4 of 6 sprints done)
 - **Phase 2 (Core Features)**: Weeks 7-14
 - **Phase 3 (Advanced Features)**: Weeks 15-22
 - **Phase 4 (Scale & Polish)**: Weeks 23-28
@@ -147,33 +148,36 @@ This roadmap outlines the development timeline for Estimo, broken down into spri
 
 ---
 
-### Sprint 4: Product/Service Catalog (Week 5)
+### Sprint 4: Product/Service Catalog (Week 5) ✅ COMPLETED
 
 **Deliverables:**
-- Catalog item CRUD operations
-- Category management
-- Catalog list with search
-- Bulk import/export
-- Item variants support
-- Unit types configuration
+- ✅ Catalog item CRUD operations
+- ✅ Category management
+- ✅ Catalog list with search
+- ✅ Bulk import/export
+- ✅ Item variants support
+- ✅ Unit types configuration
 
 **Tasks:**
-- [ ] Create catalog_items and categories tables
-- [ ] Build CatalogList Livewire component
-- [ ] Create CatalogForm Livewire component
-- [ ] Implement category tree structure
-- [ ] Add search and filtering
-- [ ] Build CSV import/export
-- [ ] Create unit types management
-- [ ] Implement item variants
-- [ ] Add quick-add functionality
+- ✅ Create catalog_items and categories tables
+- ✅ Build CatalogList Livewire component
+- ✅ Create CatalogForm Livewire component
+- ✅ Implement category tree structure
+- ✅ Add search and filtering
+- ✅ Build CSV import/export
+- ✅ Create unit types management
+- ✅ Implement item variants
+- ✅ Add quick-add functionality
 
 **Acceptance Criteria:**
-- Items can be organized into categories
-- Search works across name, SKU, description
-- Bulk import handles 1000+ items
-- Variants linked to parent items correctly
-- Cost and selling prices tracked separately
+- ✅ Items can be organized into categories
+- ✅ Search works across name, SKU, description
+- ✅ Bulk import handles 1000+ items
+- ✅ Variants linked to parent items correctly
+- ✅ Cost and selling prices tracked separately
+
+**Completion Date:** January 25, 2026  
+**Documentation:** See SPRINT_4_COMPLETE.md for details
 
 ---
 

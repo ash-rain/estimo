@@ -4,7 +4,7 @@
 **Estimo** is a multi-industry SaaS platform for creating professional quotes and cost estimations, built with Laravel 12, Livewire 3, and Tailwind CSS 4.
 
 ## Project Status
-🚀 **Active Development** - Sprint 3 Completed (Week 4)
+🚀 **Active Development** - Sprint 4 Completed (Week 5)
 
 ### Completed Features
 - ✅ Multi-tenancy (subdomain-based with stancl/tenancy)
@@ -14,10 +14,13 @@
 - ✅ Activity logging
 - ✅ Client management (CRUD, search, filter, archive)
 - ✅ CSV import/export for clients
+- ✅ Product/Service Catalog (CRUD, categories, bulk import/export)
+- ✅ Inventory tracking (optional)
+- ✅ Multi-currency support
 - ✅ Responsive UI with Tailwind CSS
 
 ### Currently In Progress
-- Product/Service Catalog (Sprint 4 - Week 5)
+- Basic Quote Builder (Sprint 5 - Week 6)
 
 ## Documentation Index
 1. **REQUIREMENTS.md** - Detailed feature specifications, tech stack, user roles, and database schema
