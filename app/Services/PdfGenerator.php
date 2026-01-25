@@ -23,10 +23,10 @@ class PdfGenerator
         ];
 
         $pdf = Pdf::loadView('pdf.quote', $data);
-        
+
         // Set paper size and orientation
         $pdf->setPaper($options['paper'] ?? 'a4', $options['orientation'] ?? 'portrait');
-        
+
         return $pdf;
     }
 
@@ -36,10 +36,10 @@ class PdfGenerator
     public function saveQuotePdf(Quote $quote, array $options = []): string
     {
         $pdf = $this->generateQuotePdf($quote, $options);
-        
+
         $filename = "quotes/quote-{$quote->quote_number}.pdf";
         Storage::put($filename, $pdf->output());
-        
+
         return $filename;
     }
 
@@ -49,9 +49,9 @@ class PdfGenerator
     public function downloadQuotePdf(Quote $quote, array $options = [])
     {
         $pdf = $this->generateQuotePdf($quote, $options);
-        
+
         $filename = "Quote-{$quote->quote_number}.pdf";
-        
+
         return $pdf->download($filename);
     }
 
@@ -61,7 +61,7 @@ class PdfGenerator
     public function streamQuotePdf(Quote $quote, array $options = [])
     {
         $pdf = $this->generateQuotePdf($quote, $options);
-        
+
         return $pdf->stream();
     }
 
@@ -71,7 +71,7 @@ class PdfGenerator
     protected function getCompanySettings(): array
     {
         $tenant = tenant();
-        
+
         return [
             'name' => $tenant->name ?? config('app.name'),
             'email' => $tenant->email ?? config('mail.from.address'),

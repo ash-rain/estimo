@@ -84,7 +84,7 @@ class QuoteBuilder extends Component
             $this->terms = $this->quote->terms ?? '';
             $this->footer = $this->quote->footer ?? '';
             $this->currency = $this->quote->currency;
-            
+
             // Pre-fill email recipient with client email
             if ($this->quote->client && $this->quote->client->email) {
                 $this->emailRecipient = $this->quote->client->email;
@@ -319,7 +319,7 @@ class QuoteBuilder extends Component
         }
 
         $pdfGenerator = app(PdfGenerator::class);
-        
+
         ActivityLog::log(
             'quote_downloaded',
             auth()->user()->name . ' downloaded PDF for quote: ' . $this->quote->quote_number,
@@ -327,6 +327,31 @@ class QuoteBuilder extends Component
         );
 
         return $pdfGenerator->downloadQuotePdf($this->quote);
+    }
+
+    public function copyPortalLink()
+    {
+        if (!$this->quote->exists) {
+            session()->flash('error', 'Please save the quote first.');
+            return;
+        }
+
+        // Ensure portal token exists
+        if (!$this->quote->portal_token) {
+            $this->quote->generatePortalToken();
+            $this->quote->refresh();
+        }
+
+        // This will trigger a JavaScript event to copy the link
+        $this->dispatch('portal-link-ready', url: $this->quote->getPortalUrl());
+
+        ActivityLog::log(
+            'portal_link_copied',
+            auth()->user()->name . ' copied portal link for quote: ' . $this->quote->quote_number,
+            $this->quote
+        );
+
+        session()->flash('success', 'Portal link copied to clipboard!');
     }
 
     protected function resetNewItem()

@@ -67,7 +67,7 @@ class QuoteEmail extends Model
     public function markAsOpened(): void
     {
         $this->increment('open_count');
-        
+
         if (!$this->opened_at) {
             $this->update([
                 'opened_at' => now(),
@@ -82,7 +82,7 @@ class QuoteEmail extends Model
     public function markAsClicked(): void
     {
         $this->increment('click_count');
-        
+
         if (!$this->clicked_at) {
             $this->update([
                 'clicked_at' => now(),

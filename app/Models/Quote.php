@@ -14,12 +14,15 @@ class Quote extends Model
 
     protected $fillable = [
         'quote_number',
+        'portal_token',
         'title',
         'description',
         'client_id',
         'status',
         'sent_at',
         'viewed_at',
+        'portal_viewed_at',
+        'portal_view_count',
         'accepted_at',
         'rejected_at',
         'quote_date',
@@ -43,6 +46,8 @@ class Quote extends Model
     protected $casts = [
         'sent_at' => 'datetime',
         'viewed_at' => 'datetime',
+        'portal_viewed_at' => 'datetime',
+        'portal_view_count' => 'integer',
         'accepted_at' => 'datetime',
         'rejected_at' => 'datetime',
         'quote_date' => 'date',
@@ -137,6 +142,14 @@ class Quote extends Model
     public function emails(): HasMany
     {
         return $this->hasMany(QuoteEmail::class)->orderBy('sent_at', 'desc');
+    }
+
+    /**
+     * Get the quote acceptance record.
+     */
+    public function acceptance(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(QuoteAcceptance::class);
     }
 
     /**
@@ -300,5 +313,58 @@ class Quote extends Model
             'expired' => 'yellow',
             default => 'gray',
         };
+    }
+
+    /**
+     * Generate a unique portal access token.
+     */
+    public function generatePortalToken(): string
+    {
+        $token = \Illuminate\Support\Str::random(64);
+        
+        // Ensure uniqueness
+        while (static::where('portal_token', $token)->exists()) {
+            $token = \Illuminate\Support\Str::random(64);
+        }
+        
+        $this->update(['portal_token' => $token]);
+        
+        return $token;
+    }
+
+    /**
+     * Get the portal URL for this quote.
+     */
+    public function getPortalUrl(): string
+    {
+        if (!$this->portal_token) {
+            $this->generatePortalToken();
+        }
+        
+        return route('portal.quote.show', ['token' => $this->portal_token]);
+    }
+
+    /**
+     * Check if the quote has been accepted.
+     */
+    public function isAccepted(): bool
+    {
+        return $this->status === 'accepted';
+    }
+
+    /**
+     * Check if the quote has been rejected.
+     */
+    public function isRejected(): bool
+    {
+        return $this->status === 'rejected';
+    }
+
+    /**
+     * Check if the quote has expired.
+     */
+    public function isExpired(): bool
+    {
+        return $this->valid_until && $this->valid_until->isPast() && $this->status !== 'accepted';
     }
 }

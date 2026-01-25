@@ -33,7 +33,7 @@ class QuoteSent extends Mailable
     public function envelope(): Envelope
     {
         $tenant = tenant();
-        
+
         return new Envelope(
             from: new Address(
                 $tenant->email ?? config('mail.from.address'),
@@ -77,7 +77,7 @@ class QuoteSent extends Mailable
         $pdf = $pdfGenerator->generateQuotePdf($this->quote);
 
         return [
-            Attachment::fromData(fn () => $pdf->output(), "Quote-{$this->quote->quote_number}.pdf")
+            Attachment::fromData(fn() => $pdf->output(), "Quote-{$this->quote->quote_number}.pdf")
                 ->withMime('application/pdf'),
         ];
     }
