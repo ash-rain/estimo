@@ -87,7 +87,6 @@ class CatalogImport extends Component
 
             session()->flash('success', 'Import completed successfully.');
             $this->dispatch('import-completed');
-
         } catch (\Exception $e) {
             $this->importResults['errors'][] = $e->getMessage();
             session()->flash('error', 'Import failed: ' . $e->getMessage());
@@ -158,7 +157,7 @@ class CatalogImport extends Component
         // Check if item exists by SKU
         if (!empty($sku)) {
             $existingItem = CatalogItem::where('sku', $sku)->first();
-            
+
             if ($existingItem) {
                 if ($this->updateExisting) {
                     $existingItem->update($itemData);
@@ -168,7 +167,7 @@ class CatalogImport extends Component
                 }
                 return;
             }
-            
+
             $itemData['sku'] = $sku;
         }
 
@@ -191,7 +190,7 @@ class CatalogImport extends Component
             'Content-Disposition' => "attachment; filename=\"{$filename}\"",
         ];
 
-        $callback = function() {
+        $callback = function () {
             $file = fopen('php://output', 'w');
 
             // Header row

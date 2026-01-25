@@ -28,7 +28,7 @@ Route::middleware([
         return redirect()->route('login');
     });
 
-    require __DIR__.'/auth.php';
+    require __DIR__ . '/auth.php';
 
     // Authenticated routes
     Route::middleware(['auth', 'verified'])->group(function () {

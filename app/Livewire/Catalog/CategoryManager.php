@@ -50,7 +50,7 @@ class CategoryManager extends Component
     public function editCategory($categoryId)
     {
         $category = Category::findOrFail($categoryId);
-        
+
         $this->editingCategoryId = $category->id;
         $this->name = $category->name;
         $this->description = $category->description ?? '';
@@ -112,7 +112,7 @@ class CategoryManager extends Component
         );
 
         $category->delete();
-        
+
         $this->loadCategories();
         session()->flash('success', 'Category deleted successfully.');
     }
