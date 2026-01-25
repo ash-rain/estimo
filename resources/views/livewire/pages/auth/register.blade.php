@@ -73,59 +73,71 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
-    <form wire:submit="register">
+    <div class="mb-8">
+        <h2 class="text-3xl font-bold text-gray-900">Create your account</h2>
+        <p class="mt-2 text-sm text-gray-600">Start your 14-day free trial today</p>
+    </div>
+
+    <form wire:submit="register" class="space-y-6">
         <!-- Company Name -->
         <div>
             <x-input-label for="company_name" :value="__('Company Name')" />
-            <x-text-input wire:model="company_name" id="company_name" class="block mt-1 w-full" type="text" name="company_name" required autofocus autocomplete="organization" />
+            <x-text-input wire:model="company_name" id="company_name" class="block mt-1 w-full" type="text" name="company_name" required autofocus autocomplete="organization" placeholder="Acme Inc" />
             <x-input-error :messages="$errors->get('company_name')" class="mt-2" />
         </div>
 
         <!-- Name -->
-        <div class="mt-4">
+        <div>
             <x-input-label for="name" :value="__('Your Name')" />
-            <x-text-input wire:model="name" id="name" class="block mt-1 w-full" type="text" name="name" required autocomplete="name" />
+            <x-text-input wire:model="name" id="name" class="block mt-1 w-full" type="text" name="name" required autocomplete="name" placeholder="John Doe" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email" required autocomplete="username" />
+        <div>
+            <x-input-label for="email" :value="__('Email address')" />
+            <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email" required autocomplete="username" placeholder="you@example.com" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
+        <div>
             <x-input-label for="password" :value="__('Password')" />
-
             <x-text-input wire:model="password" id="password" class="block mt-1 w-full"
                             type="password"
                             name="password"
-                            required autocomplete="new-password" />
-
+                            required autocomplete="new-password" 
+                            placeholder="••••••••" />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
         <!-- Confirm Password -->
-        <div class="mt-4">
+        <div>
             <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
             <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full"
                             type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
+                            name="password_confirmation" required autocomplete="new-password" 
+                            placeholder="••••••••" />
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}" wire:navigate>
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
+        <div>
+            <x-primary-button class="w-full justify-center">
+                {{ __('Create account') }}
             </x-primary-button>
         </div>
+
+        <div class="text-xs text-gray-500 text-center">
+            By signing up, you agree to our Terms of Service and Privacy Policy
+        </div>
     </form>
+
+    <div class="mt-6">
+        <p class="text-center text-sm text-gray-600">
+            Already have an account?
+            <a href="{{ route('login') }}" wire:navigate class="font-medium text-indigo-600 hover:text-indigo-500">
+                Sign in
+            </a>
+        </p>
+    </div>
 </div>
