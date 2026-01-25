@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome');
 
 // Include auth routes for central domain
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 
 // Additional authenticated routes for central domain if needed
 Route::middleware(['auth'])->group(function () {

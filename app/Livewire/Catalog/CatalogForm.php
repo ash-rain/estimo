@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Catalog;
 
+use App\Models\ActivityLog;
 use App\Models\CatalogItem;
 use App\Models\Category;
-use App\Models\ActivityLog;
 use Livewire\Component;
 
 class CatalogForm extends Component
@@ -13,35 +13,46 @@ class CatalogForm extends Component
 
     // Basic Information
     public $name = '';
+
     public $sku = '';
+
     public $description = '';
+
     public $category_id = '';
 
     // Pricing
     public $cost_price = 0;
+
     public $selling_price = 0;
+
     public $currency = 'USD';
 
     // Units & Quantities
     public $unit_type = 'each';
+
     public $minimum_quantity = 1;
+
     public $is_taxable = true;
 
     // Inventory
     public $track_inventory = false;
+
     public $stock_quantity = 0;
+
     public $low_stock_threshold = null;
 
     // Additional
     public $tags = '';
+
     public $notes = '';
+
     public $is_active = true;
 
     protected function rules()
     {
         return [
             'name' => 'required|string|max:255',
-            'sku' => 'nullable|string|max:255|unique:catalog_items,sku,' . ($this->itemId ?? 'NULL'),
+            'sku' => 'nullable|string|max:255|unique:catalog_items,sku,'.($this->itemId ?? 'NULL'),
             'description' => 'nullable|string',
             'category_id' => 'nullable|exists:categories,id',
             'cost_price' => 'required|numeric|min:0',
@@ -90,9 +101,9 @@ class CatalogForm extends Component
         // Convert tags string to array
         $tagsArray = array_filter(
             array_map('trim', explode(',', $validated['tags'] ?? '')),
-            fn($tag) => !empty($tag)
+            fn ($tag) => ! empty($tag)
         );
-        $validated['tags'] = !empty($tagsArray) ? $tagsArray : null;
+        $validated['tags'] = ! empty($tagsArray) ? $tagsArray : null;
 
         if ($this->itemId) {
             $item = CatalogItem::findOrFail($this->itemId);
@@ -100,7 +111,7 @@ class CatalogForm extends Component
 
             ActivityLog::log(
                 'catalog_item_updated',
-                auth()->user()->name . ' updated catalog item: ' . $item->name,
+                auth()->user()->name.' updated catalog item: '.$item->name,
                 $item
             );
 
@@ -111,7 +122,7 @@ class CatalogForm extends Component
 
             ActivityLog::log(
                 'catalog_item_created',
-                auth()->user()->name . ' created catalog item: ' . $item->name,
+                auth()->user()->name.' created catalog item: '.$item->name,
                 $item
             );
 

@@ -2,17 +2,22 @@
 
 namespace App\Livewire\Catalog;
 
-use App\Models\Category;
 use App\Models\ActivityLog;
+use App\Models\Category;
 use Livewire\Component;
 
 class CategoryManager extends Component
 {
     public $categories;
+
     public $editingCategoryId = null;
+
     public $name = '';
+
     public $description = '';
+
     public $parent_id = '';
+
     public $is_active = true;
 
     protected function rules()
@@ -68,7 +73,7 @@ class CategoryManager extends Component
 
             ActivityLog::log(
                 'category_updated',
-                auth()->user()->name . ' updated category: ' . $category->name,
+                auth()->user()->name.' updated category: '.$category->name,
                 $category
             );
 
@@ -78,7 +83,7 @@ class CategoryManager extends Component
 
             ActivityLog::log(
                 'category_created',
-                auth()->user()->name . ' created category: ' . $category->name,
+                auth()->user()->name.' created category: '.$category->name,
                 $category
             );
 
@@ -97,17 +102,19 @@ class CategoryManager extends Component
         // Check if category has children or catalog items
         if ($category->children()->count() > 0) {
             session()->flash('error', 'Cannot delete category with subcategories.');
+
             return;
         }
 
         if ($category->catalogItems()->count() > 0) {
             session()->flash('error', 'Cannot delete category with catalog items.');
+
             return;
         }
 
         ActivityLog::log(
             'category_deleted',
-            auth()->user()->name . ' deleted category: ' . $category->name,
+            auth()->user()->name.' deleted category: '.$category->name,
             $category
         );
 
@@ -120,19 +127,19 @@ class CategoryManager extends Component
     public function toggleActive($categoryId)
     {
         $category = Category::findOrFail($categoryId);
-        $category->is_active = !$category->is_active;
+        $category->is_active = ! $category->is_active;
         $category->save();
 
         $status = $category->is_active ? 'activated' : 'deactivated';
 
         ActivityLog::log(
-            'category_' . $status,
-            auth()->user()->name . ' ' . $status . ' category: ' . $category->name,
+            'category_'.$status,
+            auth()->user()->name.' '.$status.' category: '.$category->name,
             $category
         );
 
         $this->loadCategories();
-        session()->flash('success', 'Category ' . $status . ' successfully.');
+        session()->flash('success', 'Category '.$status.' successfully.');
     }
 
     public function moveUp($categoryId)

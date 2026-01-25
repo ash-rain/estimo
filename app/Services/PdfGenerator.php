@@ -96,7 +96,7 @@ class PdfGenerator
         $parts = array_filter([
             $company['address'],
             $company['city'],
-            $company['state'] . ' ' . $company['postal_code'],
+            $company['state'].' '.$company['postal_code'],
             $company['country'],
         ]);
 

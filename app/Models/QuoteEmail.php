@@ -44,10 +44,10 @@ class QuoteEmail extends Model
         parent::boot();
 
         static::creating(function ($quoteEmail) {
-            if (!$quoteEmail->tracking_token) {
+            if (! $quoteEmail->tracking_token) {
                 $quoteEmail->tracking_token = Str::random(32);
             }
-            if (!$quoteEmail->sent_at) {
+            if (! $quoteEmail->sent_at) {
                 $quoteEmail->sent_at = now();
             }
         });
@@ -68,7 +68,7 @@ class QuoteEmail extends Model
     {
         $this->increment('open_count');
 
-        if (!$this->opened_at) {
+        if (! $this->opened_at) {
             $this->update([
                 'opened_at' => now(),
                 'status' => 'opened',
@@ -83,7 +83,7 @@ class QuoteEmail extends Model
     {
         $this->increment('click_count');
 
-        if (!$this->clicked_at) {
+        if (! $this->clicked_at) {
             $this->update([
                 'clicked_at' => now(),
                 'status' => 'clicked',
@@ -105,7 +105,7 @@ class QuoteEmail extends Model
     /**
      * Mark the email as bounced.
      */
-    public function markAsBounced(string $error = null): void
+    public function markAsBounced(?string $error = null): void
     {
         $this->update([
             'status' => 'bounced',

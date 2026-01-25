@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Catalog;
 
+use App\Models\ActivityLog;
 use App\Models\CatalogItem;
 use App\Models\Category;
-use App\Models\ActivityLog;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -13,13 +13,21 @@ class CatalogList extends Component
     use WithPagination;
 
     public $search = '';
+
     public $categoryFilter = '';
+
     public $statusFilter = 'active';
+
     public $sortBy = 'name';
+
     public $sortDirection = 'asc';
+
     public $showFormModal = false;
+
     public $showImportModal = false;
+
     public $showCategoryModal = false;
+
     public $editingItemId = null;
 
     public function render()
@@ -27,11 +35,11 @@ class CatalogList extends Component
         $items = CatalogItem::query()
             ->with(['category', 'creator', 'variants'])
             ->parents() // Only show parent items, not variants
-            ->when($this->search, fn($q) => $q->search($this->search))
-            ->when($this->categoryFilter, fn($q) => $q->inCategory($this->categoryFilter))
-            ->when($this->statusFilter === 'active', fn($q) => $q->active())
-            ->when($this->statusFilter === 'inactive', fn($q) => $q->where('is_active', false))
-            ->when($this->statusFilter === 'low_stock', fn($q) => $q->lowStock())
+            ->when($this->search, fn ($q) => $q->search($this->search))
+            ->when($this->categoryFilter, fn ($q) => $q->inCategory($this->categoryFilter))
+            ->when($this->statusFilter === 'active', fn ($q) => $q->active())
+            ->when($this->statusFilter === 'inactive', fn ($q) => $q->where('is_active', false))
+            ->when($this->statusFilter === 'low_stock', fn ($q) => $q->lowStock())
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate(20);
 
@@ -63,7 +71,7 @@ class CatalogList extends Component
 
         ActivityLog::log(
             'catalog_item_deleted',
-            auth()->user()->name . ' deleted catalog item: ' . $item->name,
+            auth()->user()->name.' deleted catalog item: '.$item->name,
             $item
         );
 
@@ -77,14 +85,14 @@ class CatalogList extends Component
         $item = CatalogItem::findOrFail($itemId);
 
         $duplicate = $item->replicate();
-        $duplicate->name = $item->name . ' (Copy)';
+        $duplicate->name = $item->name.' (Copy)';
         $duplicate->sku = null; // SKU must be unique
         $duplicate->created_by = auth()->id();
         $duplicate->save();
 
         ActivityLog::log(
             'catalog_item_duplicated',
-            auth()->user()->name . ' duplicated catalog item: ' . $item->name,
+            auth()->user()->name.' duplicated catalog item: '.$item->name,
             $duplicate
         );
 
@@ -94,18 +102,18 @@ class CatalogList extends Component
     public function toggleActive($itemId)
     {
         $item = CatalogItem::findOrFail($itemId);
-        $item->is_active = !$item->is_active;
+        $item->is_active = ! $item->is_active;
         $item->save();
 
         $status = $item->is_active ? 'activated' : 'deactivated';
 
         ActivityLog::log(
-            'catalog_item_' . $status,
-            auth()->user()->name . ' ' . $status . ' catalog item: ' . $item->name,
+            'catalog_item_'.$status,
+            auth()->user()->name.' '.$status.' catalog item: '.$item->name,
             $item
         );
 
-        session()->flash('success', 'Catalog item ' . $status . ' successfully.');
+        session()->flash('success', 'Catalog item '.$status.' successfully.');
     }
 
     public function exportItems()
@@ -113,19 +121,19 @@ class CatalogList extends Component
         $items = CatalogItem::query()
             ->with('category')
             ->parents()
-            ->when($this->search, fn($q) => $q->search($this->search))
-            ->when($this->categoryFilter, fn($q) => $q->inCategory($this->categoryFilter))
-            ->when($this->statusFilter === 'active', fn($q) => $q->active())
-            ->when($this->statusFilter === 'inactive', fn($q) => $q->where('is_active', false))
+            ->when($this->search, fn ($q) => $q->search($this->search))
+            ->when($this->categoryFilter, fn ($q) => $q->inCategory($this->categoryFilter))
+            ->when($this->statusFilter === 'active', fn ($q) => $q->active())
+            ->when($this->statusFilter === 'inactive', fn ($q) => $q->where('is_active', false))
             ->get();
 
-        $filename = 'catalog_items_' . now()->format('Y-m-d_His') . '.csv';
+        $filename = 'catalog_items_'.now()->format('Y-m-d_His').'.csv';
         $headers = [
             'Content-Type' => 'text/csv',
             'Content-Disposition' => "attachment; filename=\"{$filename}\"",
         ];
 
-        $callback = function() use ($items) {
+        $callback = function () use ($items) {
             $file = fopen('php://output', 'w');
 
             // Header row

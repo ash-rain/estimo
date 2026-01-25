@@ -50,7 +50,7 @@ class CreateTenantCommand extends Command
             // Create domain
             $subdomain = Str::slug($name);
             $domain = $tenant->domains()->create([
-                'domain' => $subdomain . '.' . config('app.domain', 'estimo.test'),
+                'domain' => $subdomain.'.'.config('app.domain', 'estimo.test'),
             ]);
 
             $this->info("Domain created: {$domain->domain}");
@@ -70,12 +70,13 @@ class CreateTenantCommand extends Command
             $this->info("Password: {$password}");
 
             $this->newLine();
-            $this->info("✅ Tenant setup complete!");
+            $this->info('✅ Tenant setup complete!');
             $this->info("Access at: http://{$domain->domain}");
 
             return Command::SUCCESS;
         } catch (\Exception $e) {
             $this->error("Failed to create tenant: {$e->getMessage()}");
+
             return Command::FAILURE;
         }
     }

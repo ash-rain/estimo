@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Quote;
 use App\Models\QuoteAcceptance;
-use App\Models\ActivityLog;
 use App\Notifications\QuoteAcceptedNotification;
 use App\Notifications\QuoteRejectedNotification;
 use Illuminate\Http\Request;
@@ -24,12 +24,12 @@ class ClientPortalController extends Controller
         // Track portal view
         $quote->increment('portal_view_count');
 
-        if (!$quote->portal_viewed_at) {
+        if (! $quote->portal_viewed_at) {
             $quote->update(['portal_viewed_at' => now()]);
         }
 
         // Also update the main viewed_at if not set
-        if (!$quote->viewed_at) {
+        if (! $quote->viewed_at) {
             $quote->update(['viewed_at' => now()]);
         }
 
@@ -48,7 +48,7 @@ class ClientPortalController extends Controller
 
         // Check if already accepted or rejected
         if ($quote->acceptance) {
-            return back()->with('error', 'This quote has already been ' . $quote->acceptance->action . '.');
+            return back()->with('error', 'This quote has already been '.$quote->acceptance->action.'.');
         }
 
         $validator = Validator::make($request->all(), [
@@ -80,7 +80,7 @@ class ClientPortalController extends Controller
         // Log activity
         ActivityLog::log(
             'quote_accepted',
-            $request->client_name . ' accepted quote: ' . $quote->quote_number,
+            $request->client_name.' accepted quote: '.$quote->quote_number,
             $quote
         );
 
@@ -104,7 +104,7 @@ class ClientPortalController extends Controller
 
         // Check if already accepted or rejected
         if ($quote->acceptance) {
-            return back()->with('error', 'This quote has already been ' . $quote->acceptance->action . '.');
+            return back()->with('error', 'This quote has already been '.$quote->acceptance->action.'.');
         }
 
         $validator = Validator::make($request->all(), [
@@ -134,7 +134,7 @@ class ClientPortalController extends Controller
         // Log activity
         ActivityLog::log(
             'quote_rejected',
-            $request->client_name . ' rejected quote: ' . $quote->quote_number,
+            $request->client_name.' rejected quote: '.$quote->quote_number,
             $quote
         );
 

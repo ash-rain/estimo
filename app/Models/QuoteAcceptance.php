@@ -37,9 +37,9 @@ class QuoteAcceptance extends Model
         parent::boot();
 
         static::creating(function ($acceptance) {
-            if ($acceptance->action === 'accepted' && !$acceptance->accepted_at) {
+            if ($acceptance->action === 'accepted' && ! $acceptance->accepted_at) {
                 $acceptance->accepted_at = now();
-            } elseif ($acceptance->action === 'rejected' && !$acceptance->rejected_at) {
+            } elseif ($acceptance->action === 'rejected' && ! $acceptance->rejected_at) {
                 $acceptance->rejected_at = now();
             }
         });

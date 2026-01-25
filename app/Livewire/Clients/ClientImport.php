@@ -2,18 +2,20 @@
 
 namespace App\Livewire\Clients;
 
-use App\Models\Client;
 use App\Models\ActivityLog;
+use App\Models\Client;
+use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Validator;
 
 class ClientImport extends Component
 {
     use WithFileUploads;
 
     public $csvFile;
+
     public $importResults = null;
+
     public $isProcessing = false;
 
     protected $rules = [
@@ -63,6 +65,7 @@ class ClientImport extends Component
                 $this->addError('csvFile', 'Invalid CSV format. Please use the export template.');
                 fclose($file);
                 $this->isProcessing = false;
+
                 return;
             }
 
@@ -113,6 +116,7 @@ class ClientImport extends Component
                             'company' => $clientData['company_name'],
                             'errors' => $validator->errors()->all(),
                         ];
+
                         continue;
                     }
 
@@ -134,7 +138,7 @@ class ClientImport extends Component
 
             ActivityLog::log(
                 'clients_imported',
-                auth()->user()->name . ' imported ' . $this->importResults['success'] . ' clients from CSV',
+                auth()->user()->name.' imported '.$this->importResults['success'].' clients from CSV',
                 null,
                 $this->importResults
             );
@@ -145,7 +149,7 @@ class ClientImport extends Component
             }
 
         } catch (\Exception $e) {
-            $this->addError('csvFile', 'Error processing CSV file: ' . $e->getMessage());
+            $this->addError('csvFile', 'Error processing CSV file: '.$e->getMessage());
         } finally {
             $this->isProcessing = false;
         }
@@ -159,7 +163,7 @@ class ClientImport extends Component
             'Content-Disposition' => "attachment; filename=\"{$filename}\"",
         ];
 
-        $callback = function() {
+        $callback = function () {
             $file = fopen('php://output', 'w');
 
             // Header row

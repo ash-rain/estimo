@@ -39,7 +39,7 @@ class QuoteSent extends Mailable
                 $tenant->email ?? config('mail.from.address'),
                 $tenant->name ?? config('mail.from.name')
             ),
-            subject: "Quote {$this->quote->quote_number} from " . ($tenant->name ?? config('app.name')),
+            subject: "Quote {$this->quote->quote_number} from ".($tenant->name ?? config('app.name')),
         );
     }
 
@@ -69,7 +69,7 @@ class QuoteSent extends Mailable
      */
     public function attachments(): array
     {
-        if (!$this->attachPdf) {
+        if (! $this->attachPdf) {
             return [];
         }
 
@@ -77,7 +77,7 @@ class QuoteSent extends Mailable
         $pdf = $pdfGenerator->generateQuotePdf($this->quote);
 
         return [
-            Attachment::fromData(fn() => $pdf->output(), "Quote-{$this->quote->quote_number}.pdf")
+            Attachment::fromData(fn () => $pdf->output(), "Quote-{$this->quote->quote_number}.pdf")
                 ->withMime('application/pdf'),
         ];
     }

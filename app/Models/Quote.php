@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Carbon\Carbon;
 
 class Quote extends Model
 {
@@ -93,7 +93,7 @@ class Quote extends Model
 
         $nextNumber = $lastQuote ? ((int) substr($lastQuote->quote_number, -4)) + 1 : 1;
 
-        return 'Q-' . $year . '-' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+        return 'Q-'.$year.'-'.str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
     }
 
     /**
@@ -131,9 +131,17 @@ class Quote extends Model
     /**
      * Get the child quotes (revisions).
      */
-    public function revisions(): HasMany
+    public function childQuotes(): HasMany
     {
         return $this->hasMany(Quote::class, 'parent_quote_id');
+    }
+
+    /**
+     * Get the quote revisions (snapshots).
+     */
+    public function revisions(): HasMany
+    {
+        return $this->hasMany(QuoteRevision::class)->orderBy('revision_number', 'desc');
     }
 
     /**
@@ -280,7 +288,7 @@ class Quote extends Model
      */
     public function getFormattedTotalAttribute(): string
     {
-        return $this->currency . ' ' . number_format($this->total, 2);
+        return $this->currency.' '.number_format($this->total, 2);
     }
 
     /**
@@ -337,7 +345,7 @@ class Quote extends Model
      */
     public function getPortalUrl(): string
     {
-        if (!$this->portal_token) {
+        if (! $this->portal_token) {
             $this->generatePortalToken();
         }
 
@@ -366,5 +374,104 @@ class Quote extends Model
     public function isExpired(): bool
     {
         return $this->valid_until && $this->valid_until->isPast() && $this->status !== 'accepted';
+    }
+
+    /**
+     * Create a revision snapshot of the current quote.
+     */
+    public function createRevision(?string $notes = null, ?int $userId = null): QuoteRevision
+    {
+        // Get the next revision number
+        $latestRevision = $this->revisions()->orderBy('revision_number', 'desc')->first();
+        $revisionNumber = $latestRevision ? $latestRevision->revision_number + 1 : 1;
+
+        // Prepare snapshot data
+        $data = [
+            'quote_number' => $this->quote_number,
+            'title' => $this->title,
+            'description' => $this->description,
+            'client_id' => $this->client_id,
+            'client_name' => $this->client?->name,
+            'status' => $this->status,
+            'quote_date' => $this->quote_date?->toDateString(),
+            'valid_until' => $this->valid_until?->toDateString(),
+            'subtotal' => (float) $this->subtotal,
+            'tax_rate' => (float) $this->tax_rate,
+            'tax_amount' => (float) $this->tax_amount,
+            'discount_rate' => (float) $this->discount_rate,
+            'discount_amount' => (float) $this->discount_amount,
+            'total' => (float) $this->total,
+            'currency' => $this->currency,
+            'notes' => $this->notes,
+            'terms' => $this->terms,
+            'footer' => $this->footer,
+            'items' => $this->items->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'catalog_item_id' => $item->catalog_item_id,
+                    'name' => $item->name,
+                    'description' => $item->description,
+                    'quantity' => (float) $item->quantity,
+                    'unit' => $item->unit,
+                    'unit_price' => (float) $item->unit_price,
+                    'is_taxable' => $item->is_taxable,
+                    'subtotal' => (float) $item->subtotal,
+                    'sort_order' => $item->sort_order,
+                ];
+            })->toArray(),
+        ];
+
+        // Create the revision
+        return $this->revisions()->create([
+            'revision_number' => $revisionNumber,
+            'notes' => $notes,
+            'data' => $data,
+            'created_by' => $userId ?? auth()->id(),
+            'parent_revision_id' => $latestRevision?->id,
+        ]);
+    }
+
+    /**
+     * Get the current revision number.
+     */
+    public function getCurrentRevisionNumber(): int
+    {
+        $latestRevision = $this->revisions()->orderBy('revision_number', 'desc')->first();
+
+        return $latestRevision ? $latestRevision->revision_number : 0;
+    }
+
+    /**
+     * Restore quote from a specific revision.
+     */
+    public function restoreFromRevision(QuoteRevision $revision): void
+    {
+        $data = $revision->data;
+
+        // Update quote fields (excluding items)
+        $this->update([
+            'title' => $data['title'] ?? $this->title,
+            'description' => $data['description'] ?? $this->description,
+            'quote_date' => $data['quote_date'] ?? $this->quote_date,
+            'valid_until' => $data['valid_until'] ?? $this->valid_until,
+            'tax_rate' => $data['tax_rate'] ?? $this->tax_rate,
+            'discount_rate' => $data['discount_rate'] ?? $this->discount_rate,
+            'notes' => $data['notes'] ?? $this->notes,
+            'terms' => $data['terms'] ?? $this->terms,
+            'footer' => $data['footer'] ?? $this->footer,
+        ]);
+
+        // We don't restore items directly here - that would be done through UI
+        // to allow users to review changes before applying
+    }
+
+    /**
+     * Get revision version name (e.g., "v3").
+     */
+    public function getRevisionVersionName(): string
+    {
+        $number = $this->getCurrentRevisionNumber();
+
+        return $number > 0 ? "v{$number}" : '';
     }
 }

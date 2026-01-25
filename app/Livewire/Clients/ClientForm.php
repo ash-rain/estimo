@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Clients;
 
-use App\Models\Client;
 use App\Models\ActivityLog;
+use App\Models\Client;
 use Livewire\Component;
 
 class ClientForm extends Component
@@ -12,26 +12,38 @@ class ClientForm extends Component
 
     // Company Information
     public $company_name = '';
+
     public $contact_name = '';
+
     public $email = '';
+
     public $phone = '';
+
     public $website = '';
 
     // Address Information
     public $address = '';
+
     public $city = '';
+
     public $state = '';
+
     public $postal_code = '';
+
     public $country = 'US';
 
     // Financial Information
     public $currency = 'USD';
+
     public $tax_exempt = false;
+
     public $tax_rate = null;
 
     // Additional Information
     public $notes = '';
+
     public $tags = '';
+
     public $status = 'active';
 
     protected function rules()
@@ -87,9 +99,9 @@ class ClientForm extends Component
         // Convert tags string to array
         $tagsArray = array_filter(
             array_map('trim', explode(',', $validated['tags'] ?? '')),
-            fn($tag) => !empty($tag)
+            fn ($tag) => ! empty($tag)
         );
-        $validated['tags'] = !empty($tagsArray) ? $tagsArray : null;
+        $validated['tags'] = ! empty($tagsArray) ? $tagsArray : null;
 
         if ($this->clientId) {
             // Update existing client
@@ -98,7 +110,7 @@ class ClientForm extends Component
 
             ActivityLog::log(
                 'client_updated',
-                auth()->user()->name . ' updated client: ' . $client->company_name,
+                auth()->user()->name.' updated client: '.$client->company_name,
                 $client,
                 ['changes' => $validated]
             );
@@ -111,7 +123,7 @@ class ClientForm extends Component
 
             ActivityLog::log(
                 'client_created',
-                auth()->user()->name . ' created client: ' . $client->company_name,
+                auth()->user()->name.' created client: '.$client->company_name,
                 $client
             );
 

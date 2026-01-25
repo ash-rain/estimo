@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::table('tenants', function (Blueprint $table) {
             // Company Information (some columns may already exist)
-            if (!Schema::hasColumn('tenants', 'phone')) {
+            if (! Schema::hasColumn('tenants', 'phone')) {
                 $table->string('phone')->nullable()->after('email');
             }
-            if (!Schema::hasColumn('tenants', 'website')) {
+            if (! Schema::hasColumn('tenants', 'website')) {
                 $table->string('website')->nullable()->after('phone');
             }
 

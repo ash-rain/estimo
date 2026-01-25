@@ -40,13 +40,13 @@ class QuoteRejectedNotification extends Notification
         $message = (new MailMessage)
             ->subject("Quote {$this->quote->quote_number} was Declined")
             ->line("Your quote **{$this->quote->quote_number}** has been declined by {$this->acceptance->client_name}.")
-            ->line("**Client Details:**")
+            ->line('**Client Details:**')
             ->line("Name: {$this->acceptance->client_name}")
             ->line("Email: {$this->acceptance->client_email}")
             ->line("Declined: {$this->acceptance->rejected_at->format('M d, Y \a\t g:i A')}");
 
         if ($this->acceptance->rejection_reason) {
-            $message->line("**Reason:**")
+            $message->line('**Reason:**')
                 ->line($this->acceptance->rejection_reason);
         }
 

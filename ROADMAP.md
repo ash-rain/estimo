@@ -1,8 +1,8 @@
 # Estimo - Project Roadmap
 
 ## Project Status
-**Current Sprint**: Sprint 8 - Client Portal (Week 9)
-**Progress:** 7 of 28 weeks completed (25%)
+**Current Sprint**: Sprint 10 - Advanced Pricing (Week 12)
+**Progress:** 9 of 28 weeks completed (32%)
 **Phase**: Phase 2 - Core Features
 
 ### Completed Sprints ✅
@@ -12,9 +12,11 @@
 - ✅ **Sprint 4** (Week 5): Product/Service Catalog - COMPLETED
 - ✅ **Sprint 5** (Week 6): Basic Quote Builder - COMPLETED
 - ✅ **Sprint 6-7** (Weeks 7-8): PDF Generation & Email Delivery - COMPLETED
+- ✅ **Sprint 8** (Week 9): Client Portal - COMPLETED
+- ✅ **Sprint 9** (Week 11): Quote Versioning & Revision History - COMPLETED
 
 ### In Progress
-- 🔄 **Sprint 8** (Week 9): Client Portal - NEXT
+- 🔄 **Sprint 10** (Week 12): Advanced Pricing Features - NEXT
 
 ### Quick Links
 - [PRICING.md](PRICING.md) - Subscription plans and free trial details
@@ -335,34 +337,39 @@ This roadmap outlines the development timeline for Estimo, broken down into spri
 
 ---
 
-### Sprint 8: Quote Versioning & Revisions (Week 11)
+### Sprint 9: Quote Versioning & Revisions (Week 11) ✅ COMPLETED
 
 **Deliverables:**
-- Quote version tracking
-- Revision creation
-- Version comparison
-- Version history view
-- Revert functionality
+- ✅ Quote version tracking
+- ✅ Revision creation
+- ✅ Version comparison
+- ✅ Version history view
+- ✅ Restore functionality
 
 **Tasks:**
-- [ ] Create quote_versions table
-- [ ] Implement version snapshot logic
-- [ ] Build version comparison UI
-- [ ] Create revision workflow
-- [ ] Add version history timeline
-- [ ] Implement revert feature
-- [ ] Add version notes
+- ✅ Create quote_revisions table
+- ✅ Implement version snapshot logic (JSON storage)
+- ✅ Build version comparison UI
+- ✅ Create revision workflow with notes
+- ✅ Add version history modal
+- ✅ Implement restore feature
+- ✅ Add change summaries
 
 **Acceptance Criteria:**
-- Each quote change creates version
-- Versions can be compared side-by-side
-- Users can revert to previous version
-- Version history shows all changes
-- Original version always accessible
+- ✅ Users can create manual revisions
+- ✅ Revisions can be compared side-by-side
+- ✅ Users can restore from previous revision
+- ✅ Version history shows all changes
+- ✅ Complete quote snapshots stored in JSON
+- ✅ Change detection for items and totals
+- ✅ User attribution and timestamps
+
+**Completion Date:** January 25, 2026  
+**Documentation:** See SPRINT_9_COMPLETE.md for details
 
 ---
 
-### Sprint 9: Advanced Pricing & Discounts (Week 12)
+### Sprint 10: Advanced Pricing & Discounts (Week 12)
 
 **Deliverables:**
 - Pricing rules engine

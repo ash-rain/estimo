@@ -39,13 +39,13 @@ class QuoteAcceptedNotification extends Notification
     {
         return (new MailMessage)
             ->subject("Quote {$this->quote->quote_number} has been Accepted!")
-            ->greeting("Great News!")
+            ->greeting('Great News!')
             ->line("Your quote **{$this->quote->quote_number}** has been accepted by {$this->acceptance->client_name}.")
-            ->line("**Client Details:**")
+            ->line('**Client Details:**')
             ->line("Name: {$this->acceptance->client_name}")
             ->line("Email: {$this->acceptance->client_email}")
             ->line("Accepted: {$this->acceptance->accepted_at->format('M d, Y \a\t g:i A')}")
-            ->line("**Quote Total:** {$this->quote->currency}" . number_format($this->quote->total, 2))
+            ->line("**Quote Total:** {$this->quote->currency}".number_format($this->quote->total, 2))
             ->action('View Quote', route('quotes.edit', $this->quote->id))
             ->line('Thank you for using our service!');
     }

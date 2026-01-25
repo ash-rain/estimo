@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Team;
 
-use App\Models\User;
 use App\Models\ActivityLog;
+use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -12,7 +12,9 @@ class TeamList extends Component
     use WithPagination;
 
     public $search = '';
+
     public $roleFilter = '';
+
     public $showInviteModal = false;
 
     public function render()
@@ -20,8 +22,8 @@ class TeamList extends Component
         $users = User::query()
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
-                    $q->where('name', 'like', '%' . $this->search . '%')
-                      ->orWhere('email', 'like', '%' . $this->search . '%');
+                    $q->where('name', 'like', '%'.$this->search.'%')
+                        ->orWhere('email', 'like', '%'.$this->search.'%');
                 });
             })
             ->when($this->roleFilter, function ($query) {
@@ -43,6 +45,7 @@ class TeamList extends Component
 
         if ($user->role === 'owner') {
             session()->flash('error', 'Cannot deactivate the workspace owner.');
+
             return;
         }
 
@@ -50,7 +53,7 @@ class TeamList extends Component
 
         ActivityLog::log(
             'deactivated',
-            auth()->user()->name . ' deactivated user: ' . $user->name,
+            auth()->user()->name.' deactivated user: '.$user->name,
             $user
         );
 
@@ -63,6 +66,7 @@ class TeamList extends Component
 
         if ($user->role === 'owner') {
             session()->flash('error', 'Cannot change the owner\'s role.');
+
             return;
         }
 
@@ -71,7 +75,7 @@ class TeamList extends Component
 
         ActivityLog::log(
             'role_updated',
-            auth()->user()->name . ' changed ' . $user->name . '\'s role from ' . $oldRole . ' to ' . $newRole,
+            auth()->user()->name.' changed '.$user->name.'\'s role from '.$oldRole.' to '.$newRole,
             $user,
             ['old_role' => $oldRole, 'new_role' => $newRole]
         );

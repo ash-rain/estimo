@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Quotes;
 
-use App\Models\Quote;
-use App\Models\Client;
 use App\Models\ActivityLog;
+use App\Models\Client;
+use App\Models\Quote;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -13,18 +13,22 @@ class QuoteList extends Component
     use WithPagination;
 
     public $search = '';
+
     public $statusFilter = 'all';
+
     public $clientFilter = '';
+
     public $sortBy = 'created_at';
+
     public $sortDirection = 'desc';
 
     public function render()
     {
         $quotes = Quote::query()
             ->with(['client', 'creator', 'items'])
-            ->when($this->search, fn($q) => $q->search($this->search))
-            ->when($this->statusFilter !== 'all', fn($q) => $q->byStatus($this->statusFilter))
-            ->when($this->clientFilter, fn($q) => $q->forClient($this->clientFilter))
+            ->when($this->search, fn ($q) => $q->search($this->search))
+            ->when($this->statusFilter !== 'all', fn ($q) => $q->byStatus($this->statusFilter))
+            ->when($this->clientFilter, fn ($q) => $q->forClient($this->clientFilter))
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate(15);
 
@@ -43,7 +47,7 @@ class QuoteList extends Component
 
         ActivityLog::log(
             'quote_deleted',
-            auth()->user()->name . ' deleted quote: ' . $quote->quote_number,
+            auth()->user()->name.' deleted quote: '.$quote->quote_number,
             $quote
         );
 
@@ -75,11 +79,12 @@ class QuoteList extends Component
 
         ActivityLog::log(
             'quote_duplicated',
-            auth()->user()->name . ' duplicated quote: ' . $original->quote_number,
+            auth()->user()->name.' duplicated quote: '.$original->quote_number,
             $duplicate
         );
 
         session()->flash('success', 'Quote duplicated successfully.');
+
         return redirect()->route('quotes.edit', $duplicate->id);
     }
 

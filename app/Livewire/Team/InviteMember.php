@@ -2,15 +2,16 @@
 
 namespace App\Livewire\Team;
 
+use App\Models\ActivityLog;
 use App\Models\Invitation;
 use App\Models\User;
-use App\Models\ActivityLog;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class InviteMember extends Component
 {
     public $email = '';
+
     public $role = 'sales';
 
     protected $rules = [
@@ -33,6 +34,7 @@ class InviteMember extends Component
         $existingUser = User::where('email', $this->email)->first();
         if ($existingUser) {
             $this->addError('email', 'A user with this email already exists in your workspace.');
+
             return;
         }
 
@@ -47,6 +49,7 @@ class InviteMember extends Component
                 $existingInvitation->delete();
             } else {
                 $this->addError('email', 'An invitation has already been sent to this email.');
+
                 return;
             }
         }
@@ -62,7 +65,7 @@ class InviteMember extends Component
         // For now, just log it
         ActivityLog::log(
             'invitation_sent',
-            auth()->user()->name . ' invited ' . $this->email . ' as ' . $this->role,
+            auth()->user()->name.' invited '.$this->email.' as '.$this->role,
             $invitation
         );
 

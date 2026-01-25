@@ -2,42 +2,56 @@
 
 namespace App\Livewire\Quotes;
 
-use App\Models\Quote;
-use App\Models\QuoteItem;
-use App\Models\QuoteEmail;
-use App\Models\Client;
-use App\Models\CatalogItem;
-use App\Models\ActivityLog;
-use App\Services\PdfGenerator;
 use App\Mail\QuoteSent;
+use App\Models\ActivityLog;
+use App\Models\CatalogItem;
+use App\Models\Client;
+use App\Models\Quote;
+use App\Models\QuoteEmail;
+use App\Models\QuoteItem;
+use App\Services\PdfGenerator;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class QuoteBuilder extends Component
 {
     public ?int $quoteId = null;
+
     public Quote $quote;
 
     // Quote fields
     public $client_id = '';
+
     public $title = '';
+
     public $description = '';
+
     public $quote_date = '';
+
     public $valid_until = '';
+
     public $tax_rate = 0;
+
     public $discount_rate = 0;
+
     public $notes = '';
+
     public $terms = '';
+
     public $footer = '';
+
     public $currency = 'USD';
 
     // UI state
     public $showAddItemModal = false;
+
     public $showSendEmailModal = false;
+
     public $editingItemIndex = null;
 
     // Email form
     public $emailRecipient = '';
+
     public $emailMessage = '';
 
     // New item form
@@ -90,7 +104,7 @@ class QuoteBuilder extends Component
                 $this->emailRecipient = $this->quote->client->email;
             }
         } else {
-            $this->quote = new Quote();
+            $this->quote = new Quote;
             $this->quote_date = now()->format('Y-m-d');
             $this->valid_until = now()->addDays(30)->format('Y-m-d');
         }
@@ -116,7 +130,7 @@ class QuoteBuilder extends Component
 
             ActivityLog::log(
                 'quote_updated',
-                auth()->user()->name . ' updated quote: ' . $this->quote->quote_number,
+                auth()->user()->name.' updated quote: '.$this->quote->quote_number,
                 $this->quote
             );
 
@@ -128,11 +142,12 @@ class QuoteBuilder extends Component
 
             ActivityLog::log(
                 'quote_created',
-                auth()->user()->name . ' created quote: ' . $this->quote->quote_number,
+                auth()->user()->name.' created quote: '.$this->quote->quote_number,
                 $this->quote
             );
 
             session()->flash('success', 'Quote created successfully.');
+
             return redirect()->route('quotes.edit', $this->quote->id);
         }
     }
@@ -141,8 +156,9 @@ class QuoteBuilder extends Component
     {
         $catalogItem = CatalogItem::findOrFail($catalogItemId);
 
-        if (!$this->quote->exists) {
+        if (! $this->quote->exists) {
             session()->flash('error', 'Please save the quote first before adding items.');
+
             return;
         }
 
@@ -160,8 +176,9 @@ class QuoteBuilder extends Component
 
     public function addCustomItem()
     {
-        if (!$this->quote->exists) {
+        if (! $this->quote->exists) {
             session()->flash('error', 'Please save the quote first before adding items.');
+
             return;
         }
 
@@ -230,8 +247,9 @@ class QuoteBuilder extends Component
 
     public function sendQuote()
     {
-        if (!$this->quote->exists || $this->quote->items()->count() === 0) {
+        if (! $this->quote->exists || $this->quote->items()->count() === 0) {
             session()->flash('error', 'Cannot send an empty quote.');
+
             return;
         }
 
@@ -239,7 +257,7 @@ class QuoteBuilder extends Component
 
         ActivityLog::log(
             'quote_sent',
-            auth()->user()->name . ' sent quote: ' . $this->quote->quote_number,
+            auth()->user()->name.' sent quote: '.$this->quote->quote_number,
             $this->quote
         );
 
@@ -248,8 +266,9 @@ class QuoteBuilder extends Component
 
     public function openSendEmailModal()
     {
-        if (!$this->quote->exists || $this->quote->items()->count() === 0) {
+        if (! $this->quote->exists || $this->quote->items()->count() === 0) {
             session()->flash('error', 'Cannot send an empty quote.');
+
             return;
         }
 
@@ -288,7 +307,7 @@ class QuoteBuilder extends Component
             // Log activity
             ActivityLog::log(
                 'quote_emailed',
-                auth()->user()->name . ' emailed quote ' . $this->quote->quote_number . ' to ' . $this->emailRecipient,
+                auth()->user()->name.' emailed quote '.$this->quote->quote_number.' to '.$this->emailRecipient,
                 $this->quote
             );
 
@@ -307,14 +326,15 @@ class QuoteBuilder extends Component
                 'error_message' => $e->getMessage(),
             ]);
 
-            session()->flash('error', 'Failed to send email: ' . $e->getMessage());
+            session()->flash('error', 'Failed to send email: '.$e->getMessage());
         }
     }
 
     public function downloadPdf()
     {
-        if (!$this->quote->exists || $this->quote->items()->count() === 0) {
+        if (! $this->quote->exists || $this->quote->items()->count() === 0) {
             session()->flash('error', 'Cannot download PDF for an empty quote.');
+
             return;
         }
 
@@ -322,7 +342,7 @@ class QuoteBuilder extends Component
 
         ActivityLog::log(
             'quote_downloaded',
-            auth()->user()->name . ' downloaded PDF for quote: ' . $this->quote->quote_number,
+            auth()->user()->name.' downloaded PDF for quote: '.$this->quote->quote_number,
             $this->quote
         );
 
@@ -331,13 +351,14 @@ class QuoteBuilder extends Component
 
     public function copyPortalLink()
     {
-        if (!$this->quote->exists) {
+        if (! $this->quote->exists) {
             session()->flash('error', 'Please save the quote first.');
+
             return;
         }
 
         // Ensure portal token exists
-        if (!$this->quote->portal_token) {
+        if (! $this->quote->portal_token) {
             $this->quote->generatePortalToken();
             $this->quote->refresh();
         }
@@ -347,7 +368,7 @@ class QuoteBuilder extends Component
 
         ActivityLog::log(
             'portal_link_copied',
-            auth()->user()->name . ' copied portal link for quote: ' . $this->quote->quote_number,
+            auth()->user()->name.' copied portal link for quote: '.$this->quote->quote_number,
             $this->quote
         );
 

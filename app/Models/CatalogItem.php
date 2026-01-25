@@ -98,8 +98,8 @@ class CatalogItem extends Model
     {
         return $query->where(function ($q) use ($search) {
             $q->where('name', 'like', "%{$search}%")
-              ->orWhere('sku', 'like', "%{$search}%")
-              ->orWhere('description', 'like', "%{$search}%");
+                ->orWhere('sku', 'like', "%{$search}%")
+                ->orWhere('description', 'like', "%{$search}%");
         });
     }
 
@@ -125,7 +125,7 @@ class CatalogItem extends Model
     public function scopeLowStock($query)
     {
         return $query->where('track_inventory', true)
-                     ->whereColumn('stock_quantity', '<=', 'low_stock_threshold');
+            ->whereColumn('stock_quantity', '<=', 'low_stock_threshold');
     }
 
     /**
@@ -157,7 +157,7 @@ class CatalogItem extends Model
      */
     public function isVariant(): bool
     {
-        return !is_null($this->parent_id);
+        return ! is_null($this->parent_id);
     }
 
     /**
@@ -193,7 +193,7 @@ class CatalogItem extends Model
     {
         if ($this->isVariant() && $this->variant_attributes) {
             $attributes = collect($this->variant_attributes)
-                ->map(fn($value, $key) => "$key: $value")
+                ->map(fn ($value, $key) => "$key: $value")
                 ->implode(', ');
 
             return "{$this->name} ({$attributes})";

@@ -2,20 +2,23 @@
 
 namespace App\Livewire\Catalog;
 
+use App\Models\ActivityLog;
 use App\Models\CatalogItem;
 use App\Models\Category;
-use App\Models\ActivityLog;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Str;
 
 class CatalogImport extends Component
 {
     use WithFileUploads;
 
     public $file;
+
     public $importResults = null;
+
     public $importing = false;
+
     public $updateExisting = true;
 
     protected function rules()
@@ -50,15 +53,15 @@ class CatalogImport extends Component
 
             // Read header row
             $header = fgetcsv($file);
-            if (!$header) {
+            if (! $header) {
                 throw new \Exception('Invalid CSV file format.');
             }
 
             // Validate headers
             $requiredHeaders = ['Name', 'SKU', 'Cost Price', 'Selling Price'];
             $missingHeaders = array_diff($requiredHeaders, $header);
-            if (!empty($missingHeaders)) {
-                throw new \Exception('Missing required columns: ' . implode(', ', $missingHeaders));
+            if (! empty($missingHeaders)) {
+                throw new \Exception('Missing required columns: '.implode(', ', $missingHeaders));
             }
 
             // Map headers to indices
@@ -72,7 +75,7 @@ class CatalogImport extends Component
                 try {
                     $this->importRow($data, $headerMap);
                 } catch (\Exception $e) {
-                    $this->importResults['errors'][] = "Line {$lineNumber}: " . $e->getMessage();
+                    $this->importResults['errors'][] = "Line {$lineNumber}: ".$e->getMessage();
                     $this->importResults['skipped']++;
                 }
             }
@@ -81,7 +84,7 @@ class CatalogImport extends Component
 
             ActivityLog::log(
                 'catalog_import',
-                auth()->user()->name . ' imported ' . $this->importResults['created'] . ' catalog items',
+                auth()->user()->name.' imported '.$this->importResults['created'].' catalog items',
                 null
             );
 
@@ -89,7 +92,7 @@ class CatalogImport extends Component
             $this->dispatch('import-completed');
         } catch (\Exception $e) {
             $this->importResults['errors'][] = $e->getMessage();
-            session()->flash('error', 'Import failed: ' . $e->getMessage());
+            session()->flash('error', 'Import failed: '.$e->getMessage());
         } finally {
             $this->importing = false;
         }
@@ -119,7 +122,7 @@ class CatalogImport extends Component
 
         // Find or create category
         $categoryId = null;
-        if (!empty($categoryName)) {
+        if (! empty($categoryName)) {
             $category = Category::firstOrCreate(
                 ['slug' => Str::slug($categoryName)],
                 ['name' => $categoryName, 'is_active' => true]
@@ -129,10 +132,10 @@ class CatalogImport extends Component
 
         // Convert tags string to array
         $tagsArray = null;
-        if (!empty($tags)) {
+        if (! empty($tags)) {
             $tagsArray = array_filter(
                 array_map('trim', explode(',', $tags)),
-                fn($tag) => !empty($tag)
+                fn ($tag) => ! empty($tag)
             );
         }
 
@@ -155,7 +158,7 @@ class CatalogImport extends Component
         ];
 
         // Check if item exists by SKU
-        if (!empty($sku)) {
+        if (! empty($sku)) {
             $existingItem = CatalogItem::where('sku', $sku)->first();
 
             if ($existingItem) {
@@ -165,6 +168,7 @@ class CatalogImport extends Component
                 } else {
                     $this->importResults['skipped']++;
                 }
+
                 return;
             }
 

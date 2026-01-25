@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Clients;
 
-use App\Models\Client;
 use App\Models\ActivityLog;
+use App\Models\Client;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -12,19 +12,25 @@ class ClientList extends Component
     use WithPagination;
 
     public $search = '';
+
     public $statusFilter = 'active';
+
     public $sortBy = 'created_at';
+
     public $sortDirection = 'desc';
+
     public $showFormModal = false;
+
     public $showImportModal = false;
+
     public $editingClientId = null;
 
     public function render()
     {
         $clients = Client::query()
             ->with('creator')
-            ->when($this->search, fn($q) => $q->search($this->search))
-            ->when($this->statusFilter, fn($q) => $q->where('status', $this->statusFilter))
+            ->when($this->search, fn ($q) => $q->search($this->search))
+            ->when($this->statusFilter, fn ($q) => $q->where('status', $this->statusFilter))
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate(20);
 
@@ -52,7 +58,7 @@ class ClientList extends Component
 
         ActivityLog::log(
             'client_deleted',
-            auth()->user()->name . ' deleted client: ' . $client->company_name,
+            auth()->user()->name.' deleted client: '.$client->company_name,
             $client
         );
 
@@ -68,7 +74,7 @@ class ClientList extends Component
 
         ActivityLog::log(
             'client_archived',
-            auth()->user()->name . ' archived client: ' . $client->company_name,
+            auth()->user()->name.' archived client: '.$client->company_name,
             $client
         );
 
@@ -78,17 +84,17 @@ class ClientList extends Component
     public function exportClients()
     {
         $clients = Client::query()
-            ->when($this->search, fn($q) => $q->search($this->search))
-            ->when($this->statusFilter, fn($q) => $q->where('status', $this->statusFilter))
+            ->when($this->search, fn ($q) => $q->search($this->search))
+            ->when($this->statusFilter, fn ($q) => $q->where('status', $this->statusFilter))
             ->get();
 
-        $filename = 'clients_' . now()->format('Y-m-d_His') . '.csv';
+        $filename = 'clients_'.now()->format('Y-m-d_His').'.csv';
         $headers = [
             'Content-Type' => 'text/csv',
             'Content-Disposition' => "attachment; filename=\"{$filename}\"",
         ];
 
-        $callback = function() use ($clients) {
+        $callback = function () use ($clients) {
             $file = fopen('php://output', 'w');
 
             // Header row
