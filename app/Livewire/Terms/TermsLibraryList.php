@@ -45,14 +45,14 @@ class TermsLibraryList extends Component
     public function openEditModal($termId)
     {
         $term = TermsLibrary::findOrFail($termId);
-        
+
         $this->editingTermId = $term->id;
         $this->title = $term->title;
         $this->content = $term->content;
         $this->termCategory = $term->category ?? '';
         $this->is_default = $term->is_default;
         $this->order = $term->order;
-        
+
         $this->showModal = true;
     }
 

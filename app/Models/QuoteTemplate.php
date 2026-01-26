@@ -133,7 +133,7 @@ class QuoteTemplate extends Model
     public function preview(): array
     {
         $data = $this->template_data ?? [];
-        
+
         return [
             'name' => $this->name,
             'description' => $this->description,

@@ -108,7 +108,8 @@
                         <div class="flex items-center space-x-3">
                             <h4 class="text-sm font-medium text-gray-700">Quote Templates</h4>
                             @if ($quote->template_id)
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                <span
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                     From Template: {{ $quote->template->name ?? 'Unknown' }}
                                 </span>
                             @endif

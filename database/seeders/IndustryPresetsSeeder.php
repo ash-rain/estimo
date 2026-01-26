@@ -15,7 +15,7 @@ class IndustryPresetsSeeder extends Seeder
     {
         // Create industry preset templates
         $this->createTemplates();
-        
+
         // Create default terms library entries
         $this->createDefaultTerms();
     }

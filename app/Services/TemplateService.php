@@ -212,11 +212,11 @@ class TemplateService
     {
         $terms = [
             'it_services' => "## Payment Terms\n\n50% deposit required upon project commencement. Remaining balance due upon completion.\n\n## Project Timeline\n\nTimeline estimates are based on timely client feedback and approval. Delays in feedback may extend the project timeline.\n\n## Scope Changes\n\nAny changes to the original scope will be documented and may result in additional charges.\n\n## Warranty\n\n90-day warranty on all deliverables from project completion date.",
-            
+
             'construction' => "## Payment Schedule\n\n30% deposit, 40% at project midpoint, 30% upon completion.\n\n## Materials\n\nAll materials subject to availability. Substitutions may be made with client approval if specified materials become unavailable.\n\n## Timeline\n\nEstimated completion date assumes normal weather conditions and timely material delivery.\n\n## Warranty\n\n1-year warranty on workmanship. Material warranties per manufacturer specifications.",
-            
+
             'consulting' => "## Payment Terms\n\nInvoices issued monthly. Payment due within 15 days of invoice date.\n\n## Confidentiality\n\nAll client information and project details will be kept strictly confidential.\n\n## Deliverables\n\nAll deliverables remain property of consultant until full payment received.\n\n## Termination\n\nEither party may terminate with 30 days written notice. Client responsible for work completed through termination date.",
-            
+
             'marketing' => "## Payment Terms\n\n40% deposit, 30% at campaign launch, 30% upon completion.\n\n## Creative Rights\n\nClient receives rights to all deliverables upon final payment. Portfolio usage rights retained by agency.\n\n## Media Placement\n\nMedia costs are estimates and subject to change. Final costs will be invoiced with backup documentation.\n\n## Performance\n\nWhile we strive for excellent results, specific performance outcomes cannot be guaranteed.",
         ];
 

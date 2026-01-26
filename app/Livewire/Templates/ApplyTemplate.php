@@ -44,7 +44,7 @@ class ApplyTemplate extends Component
     public function selectTemplate($templateId)
     {
         $this->selectedTemplateId = $templateId;
-        
+
         $template = QuoteTemplate::find($templateId);
         if ($template) {
             $this->previewData = $template->preview();
@@ -59,7 +59,7 @@ class ApplyTemplate extends Component
         }
 
         $template = QuoteTemplate::findOrFail($this->selectedTemplateId);
-        
+
         $this->quote->applyTemplate($template);
 
         $this->dispatch('notify', type: 'success', message: 'Template applied successfully.');

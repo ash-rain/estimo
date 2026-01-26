@@ -72,15 +72,15 @@ class SectionTemplate extends Model
     public function getFormattedContentAttribute(): string
     {
         $content = $this->content ?? [];
-        
+
         if (isset($content['text'])) {
             return $content['text'];
         }
-        
+
         if (isset($content['html'])) {
             return $content['html'];
         }
-        
+
         return '';
     }
 
