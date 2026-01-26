@@ -101,6 +101,26 @@
                 @endif
             </div>
 
+            <!-- Template Management Section -->
+            @if ($quote->exists)
+                <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <h4 class="text-sm font-medium text-gray-700">Quote Templates</h4>
+                            @if ($quote->template_id)
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    From Template: {{ $quote->template->name ?? 'Unknown' }}
+                                </span>
+                            @endif
+                        </div>
+                        <div class="flex gap-2">
+                            @livewire('templates.apply-template', ['quote' => $quote], key('apply-template-' . $quote->id))
+                            @livewire('templates.save-as-template', ['quote' => $quote], key('save-as-template-' . $quote->id))
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <!-- Revision Management Section -->
             @if ($quote->exists)
                 <div class="bg-white rounded-lg shadow-sm p-4 mb-6">

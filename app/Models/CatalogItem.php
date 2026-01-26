@@ -185,8 +185,8 @@ class CatalogItem extends Model
     public function isLowStock(): bool
     {
         return $this->track_inventory
-               && $this->low_stock_threshold
-               && $this->stock_quantity <= $this->low_stock_threshold;
+            && $this->low_stock_threshold
+            && $this->stock_quantity <= $this->low_stock_threshold;
     }
 
     /**
@@ -204,7 +204,7 @@ class CatalogItem extends Model
     {
         if ($this->isVariant() && $this->variant_attributes) {
             $attributes = collect($this->variant_attributes)
-                ->map(fn ($value, $key) => "$key: $value")
+                ->map(fn($value, $key) => "$key: $value")
                 ->implode(', ');
 
             return "{$this->name} ({$attributes})";

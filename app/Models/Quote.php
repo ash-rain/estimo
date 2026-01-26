@@ -19,6 +19,7 @@ class Quote extends Model
         'description',
         'client_id',
         'status',
+        'template_id',
         'sent_at',
         'viewed_at',
         'portal_viewed_at',
@@ -142,6 +143,14 @@ class Quote extends Model
     public function revisions(): HasMany
     {
         return $this->hasMany(QuoteRevision::class)->orderBy('revision_number', 'desc');
+    }
+
+    /**
+     * Get the template this quote was created from.
+     */
+    public function template(): BelongsTo
+    {
+        return $this->belongsTo(QuoteTemplate::class, 'template_id');
     }
 
     /**
@@ -473,5 +482,22 @@ class Quote extends Model
         $number = $this->getCurrentRevisionNumber();
 
         return $number > 0 ? "v{$number}" : '';
+    }
+
+    /**
+     * Save the current quote as a template.
+     */
+    public function saveAsTemplate(array $data): QuoteTemplate
+    {
+        $templateService = app(\App\Services\TemplateService::class);
+        return $templateService->createFromQuote($this, $data);
+    }
+
+    /**
+     * Apply a template to this quote.
+     */
+    public function applyTemplate(QuoteTemplate $template): void
+    {
+        $template->applyToQuote($this);
     }
 }

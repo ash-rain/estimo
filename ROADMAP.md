@@ -1,8 +1,8 @@
 # Estimo - Project Roadmap
 
 ## Project Status
-**Current Sprint**: Sprint 10 - Advanced Pricing (Week 12)
-**Progress:** 9 of 28 weeks completed (32%)
+**Current Sprint**: Sprint 11 - Templates & Customization (Week 13)
+**Progress:** 11 of 28 weeks completed (39%)
 **Phase**: Phase 2 - Core Features
 
 ### Completed Sprints ✅
@@ -14,9 +14,11 @@
 - ✅ **Sprint 6-7** (Weeks 7-8): PDF Generation & Email Delivery - COMPLETED
 - ✅ **Sprint 8** (Week 9): Client Portal - COMPLETED
 - ✅ **Sprint 9** (Week 11): Quote Versioning & Revision History - COMPLETED
+- ✅ **Sprint 10** (Week 12): Advanced Pricing Features - COMPLETED
+- ✅ **Sprint 11** (Week 13): Templates & Customization - COMPLETED
 
 ### In Progress
-- 🔄 **Sprint 10** (Week 12): Advanced Pricing Features - NEXT
+- 🔄 **Sprint 12** (Week 14): Basic Reporting - NEXT
 
 ### Quick Links
 - [PRICING.md](PRICING.md) - Subscription plans and free trial details
@@ -426,36 +428,49 @@ This roadmap outlines the development timeline for Estimo, broken down into spri
 
 ---
 
-### Sprint 11: Templates & Customization (Week 13)
+### Sprint 11: Templates & Customization (Week 13) ✅ COMPLETED
 
 **Deliverables:**
-- Quote templates system
-- Section templates
-- Terms & conditions library
-- Email templates
-- Industry presets (starter pack)
-- Template marketplace foundation
+- ✅ Quote templates system
+- ✅ Section templates
+- ✅ Terms & conditions library
+- ✅ Industry presets (5 templates)
+- ✅ Template marketplace foundation
+- ✅ Template preview functionality
 
 **Tasks:**
-- [ ] Create templates table
-- [ ] Build template management UI
-- [ ] Implement template application
-- [ ] Create section templates
-- [ ] Build terms library
-- [ ] Add industry presets
-- [ ] Create template preview
-- [ ] Implement template sharing
+- ✅ Create quote_templates table
+- ✅ Create section_templates table
+- ✅ Create terms_library table
+- ✅ Add template_id to quotes table
+- ✅ Build QuoteTemplate model
+- ✅ Build SectionTemplate model
+- ✅ Build TermsLibrary model
+- ✅ Build TemplateService
+- ✅ Create TemplatesList component
+- ✅ Create SaveAsTemplate component
+- ✅ Create ApplyTemplate component
+- ✅ Create TermsLibraryList component
+- ✅ Build IndustryPresetsSeeder
+- ✅ Integrate templates into QuoteBuilder
 
 **Acceptance Criteria:**
-- Users can save quotes as templates
-- Templates include all formatting
-- Industry presets available on signup
-- Templates speed up quote creation
-- Terms and conditions reusable
+- ✅ Users can save quotes as templates
+- ✅ Users can apply templates to new quotes
+- ✅ Templates include all formatting and structure
+- ✅ Industry presets available on signup
+- ✅ Templates significantly speed up quote creation
+- ✅ Terms and conditions are reusable
+- ✅ Template preview shows before applying
+- ✅ 5 industry presets created
+- ✅ 8 default terms available
+
+**Completion Date:** January 25, 2026  
+**Documentation:** See SPRINT_11_COMPLETE.md for details
 
 ---
 
-### Sprint 11: Basic Reporting (Week 14)
+### Sprint 12: Basic Reporting (Week 14)
 
 **Deliverables:**
 - Dashboard with key metrics
