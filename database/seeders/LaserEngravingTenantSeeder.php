@@ -68,7 +68,6 @@ class LaserEngravingTenantSeeder extends Seeder
             'email' => 'owner@precisionlaser.test',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
-            'role' => 'owner',
         ]);
 
         User::create([
@@ -76,7 +75,6 @@ class LaserEngravingTenantSeeder extends Seeder
             'email' => 'sales@precisionlaser.test',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
-            'role' => 'sales',
         ]);
     }
 
