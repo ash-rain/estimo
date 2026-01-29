@@ -13,6 +13,7 @@ use App\Models\TermsLibrary;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Stancl\Tenancy\Database\Models\Domain;
 
 class LaserEngravingTenantSeeder extends Seeder
 {
@@ -21,16 +22,15 @@ class LaserEngravingTenantSeeder extends Seeder
      */
     public function run(): void
     {
-        // Delete existing tenant if it exists
-        $existingTenant = Tenant::find('laser-engraving-demo');
-        if ($existingTenant) {
-            $existingTenant->delete();
+        // Delete existing tenant if it exists (find by domain)
+        $existingDomain = Domain::where('domain', 'laser.estimo.test')->first();
+        if ($existingDomain) {
+            $existingDomain->tenant->delete();
             $this->command->info('Deleted existing tenant');
         }
 
-        // Create tenant
+        // Create tenant (ID will be auto-generated as UUID)
         $tenant = Tenant::create([
-            'id' => 'laser-engraving-demo',
             'name' => 'Precision Laser Engraving Co.',
             'email' => 'info@precisionlaser.test',
             'plan' => 'professional',
@@ -58,6 +58,16 @@ class LaserEngravingTenantSeeder extends Seeder
 
         // Run tenant-specific seeding
         tenancy()->initialize($tenant);
+
+        // Clear existing data to avoid conflicts
+        Quote::truncate();
+        QuoteItem::truncate();
+        Client::truncate();
+        CatalogItem::truncate();
+        Category::truncate();
+        QuoteTemplate::truncate();
+        TermsLibrary::truncate();
+        User::truncate();
 
         $this->seedUsers();
         $this->seedClients();
@@ -461,7 +471,7 @@ class LaserEngravingTenantSeeder extends Seeder
             'sort_order' => 2,
         ]);
 
-        $quote1->calculateTotals();
+        $quote1->calculate();
 
         // Quote 2 - Custom Drinkware
         $quote2 = Quote::create([
@@ -504,7 +514,7 @@ class LaserEngravingTenantSeeder extends Seeder
             'notes' => 'Materials (walnut blanks) provided by client',
         ]);
 
-        $quote2->calculateTotals();
+        $quote2->calculate();
     }
 
     private function seedTemplates(): void
