@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -94,7 +93,7 @@ class Quote extends Model
 
         $nextNumber = $lastQuote ? ((int) substr($lastQuote->quote_number, -4)) + 1 : 1;
 
-        return 'Q-' . $year . '-' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+        return 'Q-'.$year.'-'.str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
     }
 
     /**
@@ -246,14 +245,6 @@ class Quote extends Model
     }
 
     /**
-     * Check if the quote is expired.
-     */
-    public function isExpired(): bool
-    {
-        return $this->valid_until && Carbon::parse($this->valid_until)->isPast();
-    }
-
-    /**
      * Check if the quote is editable.
      */
     public function isEditable(): bool
@@ -297,7 +288,7 @@ class Quote extends Model
      */
     public function getFormattedTotalAttribute(): string
     {
-        return $this->currency . ' ' . number_format($this->total, 2);
+        return $this->currency.' '.number_format($this->total, 2);
     }
 
     /**
@@ -490,6 +481,7 @@ class Quote extends Model
     public function saveAsTemplate(array $data): QuoteTemplate
     {
         $templateService = app(\App\Services\TemplateService::class);
+
         return $templateService->createFromQuote($this, $data);
     }
 
